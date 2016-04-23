@@ -1,4 +1,4 @@
-html,body {
+html, body {
   height: 100%;
 }
 
@@ -14,7 +14,6 @@ html,body {
 }
 
 .header {
-    height: 50px;
     background-color: #000;
 }
 
