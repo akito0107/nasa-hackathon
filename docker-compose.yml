@@ -4,6 +4,14 @@ node:
     - "3080:3080"
   links:
     - redis
+  environment:
+    - REDIS_HOST=redis
+go:
+  build: ./api-app/api-server
+  ports:
+    - "3002:3002"
+  links:
+    - redis
 redis:
   image: smebberson/alpine-redis
   ports:

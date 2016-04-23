@@ -7,6 +7,11 @@ const server = require('http').createServer()
   , app = express()
   , port = 3080;
 
+const redis = require('redis')
+const redisClient = redis.createClient({
+  host: process.env['REDIS_HOST'] || '192.168.99.100'
+});
+
 app.use(function (req, res) {
   res.send({msg: "hello"});
 });
@@ -27,3 +32,23 @@ server.on('request', app);
 server.listen(port, function () {
   console.log('Listening on ' + server.address().port)
 });
+
+wss.broadcast = (data) => {
+  wss.clients.forEach((client) => {
+    client.send(data);
+  });
+};
+
+console.log(process.env['REDIS_HOST'])
+
+redisClient.on("subscribe", function (channel, count) {
+  console.log(channel)
+  console.log(count)
+});
+
+redisClient.on('message', (channel, count) => {
+  console.log(channel);
+  console.log(count);
+});
+
+redisClient.subscribe("game_channel")
