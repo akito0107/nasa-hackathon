@@ -47,12 +47,10 @@ description生成用データ（スクレイピングのロジック内で完結
 
 - id
 - star_id
-- team_id
 - count
 
-星はいずれかのチームに属する（相手のスコアを0にした上で攻撃すると取り返せる）。
-星の状態はstar_idで絞り込む。
-チームの合計スコアはteam_idで絞り込んでsum。
+星はいずれかのチームに属する（ `count` が `-1` 以下であれば宇宙人のエリア、 `0` 以上であれば人間のエリア）。
+チームの合計スコアは `count <= -1` と `count >= 0 ` で絞り込んで（宇宙人側は `-1` を乗算して）sum。
 
 # フロントのアクション
 
@@ -108,10 +106,10 @@ Want要件（エフェクト）
         - id
         - lon
         - lat
-        - team_id (所有チーム: scoreとjoinして絞り込む)
+        - team_id (所有チーム: scoreとjoinして値を判定して絞り込む)
     - scores (オブジェクト)
-        - blue_score (team_idで絞り込んだscoreの合算)
-        - red_score (team_idで絞り込んだscoreの合算)
+        - blue_score ( `score >= 0` で絞り込んだscoreの合算)
+        - red_score ( `score < 0` で絞り込んだscoreの合算)
 
 ## /star
 
@@ -129,7 +127,7 @@ Want要件（エフェクト）
         - description
         - lon
         - lat
-        - team_id (所有チーム: scoreとjoinして絞り込む)
+        - team_id (所有チーム: scoreとjoinして値で判定して絞り込む)
 
 ## /hack
 
@@ -149,9 +147,9 @@ Want要件（エフェクト）
         - id
         - lon
         - lat
-        - team_id (所有チーム: scoreとjoinして絞り込む)
+        - team_id (所有チーム: scoreとjoinして値で判定して絞り込む)
     - scores (オブジェクト)
-        - blue_score (team_idで絞り込んだscoreの合算)
-        - red_score (team_idで絞り込んだscoreの合算)
+        - blue_score ( `score >= 0` で絞り込んだscoreの合算)
+        - red_score ( `score < 0` で絞り込んだscoreの合算)
 
 change以外はmainと同じレスポンス（再描画に使う）
