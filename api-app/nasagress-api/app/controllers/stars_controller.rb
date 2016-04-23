@@ -32,8 +32,10 @@ class StarsController < ApplicationController
 
     lon = params[:lon].to_f - equixLongtitude
     lat = params[:lat].to_f
+    lon = roundLongitude(lon)
     # @stars = Star.join_score.to_json(include: {score: {only: :team_id}})
     @stars = Star.near_star(lon, lat)
+    @stars.map! {|lon|roundLongitude(lon.to_f + equixLongtitude)}
     render :json => { :stars => @stars, :scores => @scores}
   end
 
@@ -129,6 +131,15 @@ class StarsController < ApplicationController
     end
   end
 
+  def roundLongitude(val)
+    if val > 180
+      val -= 360
+    elsif val < -180
+      val += 360
+    end
+    val
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_star
@@ -139,4 +150,5 @@ class StarsController < ApplicationController
     def star_params
       params.require(:star).permit(:name, :description, :lon, :lat)
     end
+
 end
