@@ -4,7 +4,7 @@
 .idea
 ## File-based project format:
 *.iws
-
+seeds.rb
 ## Plugin-specific files:
 
 # IntelliJ
