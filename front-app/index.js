@@ -11,7 +11,7 @@ var Index = React.createClass({
       </div>
     )
   }
-})
+});
 
 // set short interval for test 
 React.render(

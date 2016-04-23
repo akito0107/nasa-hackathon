@@ -1,138 +1,163 @@
 アクション周りのデータ要件を整理しました。
 
-
 # アクションに関する要件
 
-星をTap
+1. 星をTap =>モーダルが出る
 
-1.モーダルが出る
-モーダルに表示するもの
+2. アクションをする
+    - 戦争してる感じ
+    - hack => 相手の陣地だと攻撃できる。自分の陣地だと守りを強化できる。
+    - 星っぽいアクション
 
-2.アクションをする
-戦争してる感じ
-hack => アイテムゲット
-アイテムがないと攻撃できない。
-相手の陣地だとアイテムゲットするとポイントが減る。
-ゲーム性を高める仕組み
-相手の陣地だと攻撃できる。自分の陣地だと守りを強化できる。
-星っぽいアクション
-
-3.星を確保できる
-確保したら星の色が変わる
-4.星座をコンプリートした場合にはさらにエフェクト
-
----
+3.星を確保できる => 確保したら星の色が変わる
 
 # サーバ・クライアント共通のモデル
-
-> 実際にはリスト形式だったり計算・結合した形でIFしたいので別途調整させてください。
-
 
 ## star
 
 - id
-- name
-- constellation_id （星座idを持つのは、星座の全部の星の数を洗い出せるようにするため）
-- description （説明文はデータセットで用意できなそうなら、「XX星座の一部です」くらいでいいかも）
+- name (`${name} - ` (nameが存在する場合) + `HIP: ${hip}`)
+- constellation_id ( `description` 生成に使う外部キー/スクレイピングのロジック内で完結するならカラムは不要)
+- description (`${constellation.name} を構成する星の1つです`)
 - lon
 - lat
+- blue_score
+- red_score
 - team_id
-- score
 
-星はいずれかのチームに属する（相手のスコアを0にした上で攻撃すると取り返せる）
+```
+* 緯度経度は 10進法 135.6733223 を利用
+* チームの合計スコアを求めるときは、全レコードの blue_score/red_score の値を合計する
+* score は以下を満たすものとする
+  * team = 1 (Earth/Blue) が Hack して update するとき,
+    * red_score > 0 であれば red_score を -1
+    * red_score <= 0 であれば blue_score を +1 (更新前が red_score == 0 && blue_score == 0 だったら team_id = 1 に update)
+  * team = 2 (Alien/Red) が Hack して update するとき,
+    * blue_score > 0 であれば blue_score を -1
+    * blue_score <= 0 であれば red_score を +1 (更新前が red_score == 0 && blue_score == 0 だったら team_id = 2 に update)
+  * 基本的に相手のスコアがあったらそれを減らす。相手のスコアがなければ自分のスコアを追加する。
+```
 
 ## constellation
 
 - id
 - name
 
-星が集まって星座
-
-
-## line
-
-- id
-- constellation_id
-- star_a_id
-- star_b_id
-
-正確には星座を成す星の組み合わせで線を描画する必要がある
-
+```
+* description生成用データ（スクレイピングのロジック内で完結するならテーブルは不要）
+```
 
 ## team
 
 - id
 - name
-- score （チームは合計スコアを保有（星座をすべて取るとボーナスポイントとか））
+- color
 
-チームは `0:Not(White)`, `1:Earth(Blue)`, `2:Alien(Red)` の3つを想定。道などを緑で表示かな。
-
-
-## user
-
-- id
-- team_id
-- lon
-- lat
-
-どちらかのチームにユーザーは所属（最初はユーザー＝チームで1対1想定）
-
-## hack
-- user_id
-- star_id
-- count
-
-ユーザーは星にHackする（回数制限あり:すべての星で一律同じ定数で扱う）
+```
+* チームは {0, Not, white}, {1, Earth, blue}, {2, Alien, red} の3つを想定。道などをGREENで表示。
+* 0 を明記しているのはシステム都合で万が一必要になったときの予防策。
+```
 
 
-## item
 
-- id
-- name
+# フロントのアクション
 
-Hackするとユーザーはアイテムを入手（最初は単純な防御・攻撃のアイテム1つだけ）
+下記WebAPIのIFと連動する。
 
+## Main画面の描画
 
-## stock
+- 星を描画
+    - lon/latで現在値を指定 => 一定範囲で取得する
+    - team_idで色を指定する
+- 戦況を掲示
+    - teamのscoreの合計
+- クライアント：30秒ごとに再描画
+    - サーバサイド：データは60秒
 
-- user_id
-- item_id
-- count
+## 星をタップ
 
-アイテムの保有状況はstockとして管理
-
----
-
-# フロントのアクション（最小要件）
-
-- 描画
-  - 戦況を掲示（teamのscore もしくは starのteam_idごとの数）
-  - 星を描画（lon/latで位置を指定、team_idで色を指定）
-    - 現在値から一定範囲で取得？だとしたら要Indexだけど。
-  - 星座を描画（starA,starB,team_idで線を引く。starAとstarBのteam_idが同じときのみLineのteam_idがそいつになる）
-
-- 星をタップ
-  - starの各カラムを表示
-    - name, description, scoreくらいかな
+- starの各カラムを表示
+    - name, description, score
     - team_idに応じて色を変える
-    - 画像も出したいけどデータがないかもなのでWant要件
-  - Hackコマンド（user_id/star_idのhackオブジェクトのcountが上限に満たなければOK）
-  - Itemコマンド（user_idのstockがあればOK）
 
-- Hack
-  - hackのcount++
-  - stockのcount++ / itemゲット！描画
+## Hack
 
-- Item
-  - Must
-    - stockのcount--
-     - starのscoreを変更（自分のteam_idなら++, 相手のteam_idなら--）
-    - teamのscoreを変更
-  - Want
-    - なんか攻撃している！感を描画
-    - starのteam_idが変わったら変わったぞ！感を描画
-    - 星座のLineのteam_idが変わったら変わったぞ！感を描画 + ボーナスScore?
-    - 星座のLine全部のteam_idが自チームになったらスペシャル！感を描画 + ボーナスScore?
- 
-※テキストデータでかつ容量大きめになるようなら要zipか
+Must要件（処理）
 
+- scoreを変更（モデルの `star` を参照）
+- 画面を再描画（Mainと同じ処理）
+
+Want要件（エフェクト）
+
+- なんか攻撃している！感を描画
+- starのteam_idが変わったら変わったぞ！感を描画
+
+# WebAPIのIF
+
+- RESTfulではなく画面描画のために1コールで呼べるIFとする
+- 上記の `Model` のデータ仕様、`アクション` の動作を想定しています
+
+## /main
+
+### リクエスト
+
+- get
+    - lon
+    - lat
+
+※サーバサイド：絞り込む範囲は後で数字をいじれるようにしてほしいっす（TODO: 画面を見ながら最終調整）
+
+### レスポンス
+
+- response (オブジェクト)
+    - stars (配列) > star (オブジェクト)
+        - id
+        - lon
+        - lat
+        - team_id
+    - scores (オブジェクト)
+        - blue_score
+        - red_score
+
+## /star
+
+### リクエスト
+
+- get
+    - id
+
+### レスポンス
+
+- response (オブジェクト)
+    - star (オブジェクト)
+        - id
+        - name
+        - description
+        - lon
+        - lat
+        - team_id
+
+## /hack
+
+### リクエスト
+
+- post
+    - team_id
+    - star_id
+    - lon
+    - lat
+
+### レスポンス
+
+- response (オブジェクト)
+    - change (このPOSTで所有チームが変更したかどうか true/false で返す)
+    - stars (配列) > star (オブジェクト)
+        - id
+        - lon
+        - lat
+        - team_id
+    - scores (オブジェクト)
+        - blue_score
+        - red_score
+
+change以外はmainと同じレスポンス（再描画に使う）

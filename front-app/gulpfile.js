@@ -5,6 +5,7 @@ var buffer = require('vinyl-buffer');
 var gulp = require('gulp');
 var node = require('node-dev');
 var source = require('vinyl-source-stream');
+var path = require('path');
 
 function errorHandler(err) {
   console.log('Error: ' + err.message);
@@ -27,11 +28,11 @@ gulp.task('build', function() {
 });
 
 
-// start local server
-gulp.task('server', function() {
-  node(['./server.js']);
-});
-
+// // start local server
+// gulp.task('server', function() {
+//     var addPath = path.resolve(__dirname, './server.js');
+//   node([addPath]);
+// });
 
 
 // watch
@@ -43,4 +44,4 @@ gulp.task('watch', function() {
 });
 
 // set each tasks to command "gulp"
-gulp.task('default', ['server', 'build', 'watch']);
+gulp.task('default', ['build', 'watch']);

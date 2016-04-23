@@ -1,0 +1,187 @@
+/* todo: => other DOM */
+.wrapper {
+  position: relative
+}
+
+/* todo: delete */
+.wrapper {
+  width: 1300px;
+  height: 900px;
+  background-color: #050;
+}
+
+
+
+/* modal */
+
+.modal {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  bottom: 0%;
+  margin: auto;
+  padding: auto;
+  border: solid 3px #fff;
+  border-radius: 10px;
+  width: 640px;
+}
+.modal * {
+  text-align: center;
+  color: #bbb;
+  text-shadow:
+          1px 1px 2px #000,
+          -1px 1px 2px #000,
+          1px -1px 2px #000,
+          -1px -1px 2px #000;
+}
+.star-modal {
+  height: 350px;
+}
+.action-modal {
+  height: 300px;
+}
+
+/* color */
+.modal-blue {
+  border-color: #0080d0;
+}
+.modal-red {
+  border-color: #d04000;
+}
+
+
+
+/* modal-header */
+
+.modal-header {
+  border-radius: 10px 10px 0 0;
+  background-color: rgba(0,0,0,0.8);
+  height: 50px;
+}
+
+
+
+/* modal-title */
+
+.modal-title {
+  margin-left: 10px;
+  text-align: left;
+  padding: 2px;
+}
+.modal-title-left {
+  float: left;
+}
+.modal-title * {
+  padding: 10px;
+  font-size: 25px;
+}
+
+/* color */
+.modal-title-blue * {
+  color: #00c0f0;
+}
+.modal-title-red * {
+  color: #f04000;
+}
+
+
+
+/* modal-close */
+
+.modal-close {
+  border-radius: 0 10px 0 0;
+  padding: 3px 10px;
+  float: right;
+  background-color: #333;
+  cursor: pointer;
+}
+.modal-close:hover *, .modal-close:active * {
+  color: #ffff00;
+}
+.modal-close * {
+  font-size: 45px;
+  color: #fff;
+  text-shadow: 0 0 0 #fff;
+}
+
+
+
+/* modal-body */
+
+.modal-body {
+  border-radius: 0 0 10px 10px;
+  background-color: rgba(0,0,0,0.3);
+}
+.star-modal-body {
+  height: 300px;
+}
+.action-modal-body {
+  height: 250px;
+}
+.modal-body * {
+  padding-top: 10px;
+}
+.modal-contents-big {
+  font-size: 50px;
+}
+
+/* color */
+.modal-contents-blue {
+  color: #00f0f0;
+}
+.modal-contents-red {
+  color: #f01000;
+}
+
+
+
+/* modal-hr */
+
+.modal-hr {
+  display:block;
+  padding: 0px;
+  margin: 40px auto;
+  height: 1px;
+  border: 0;
+  width: 90%;
+}
+
+/* color */
+.modal-hr-blue {
+  background: linear-gradient(to right, rgba(0,0,200,0.3) 0%, rgba(0,0,200,0.8) 15%, rgba(0,0,200,1) 30%, #00c0f0 50%, rgba(0,0,200,1) 70%, rgba(0,0,200,0.8) 85%, rgba(0,0,200,0.3) 100%);
+}
+.modal-hr-red {
+  background: linear-gradient(to right, rgba(200,0,0,0.3) 0%, rgba(200,0,0,0.8) 15%, rgba(200,0,0,1) 30%, #f06000 50%, rgba(200,0,0,1) 70%, rgba(200,0,0,0.8) 85%, rgba(200,0,0,0.3) 100%);
+}
+
+
+
+/* modal-button */
+
+.modal-button {
+  width: 320px;
+  margin: 10px auto;
+  border: solid 1px #fff;
+  border-radius: 10px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.modal-button:hover *, .modal-button:active * {
+  color: #ffff00;
+}
+
+.modal-button * {
+  padding: 20px;
+  color: #fff;
+  text-shadow: 0px 1px 25px #dd0, 0px -1px 25px #dd0;
+}
+
+/* color */
+.modal-button-blue {
+  border-color: #00c0f0;
+}
+.modal-button-red {
+  border-color: #f04000;
+}

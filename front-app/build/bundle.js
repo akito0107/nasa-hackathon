@@ -22,7 +22,6 @@ var _react2 = _interopRequireDefault(_react);
 /**
  * Map.js
  *
- * TODO: secure API key before publishing
  */
 var sampleCoordinates = [{
     lat: 35.681382,
@@ -35,6 +34,7 @@ var sampleCoordinates = [{
     lng: 139.7539038
 }];
 
+<<<<<<< HEAD
 var GoogleMap = (function (_React$Component) {
     _inherits(GoogleMap, _React$Component);
 
@@ -68,11 +68,95 @@ var GoogleMap = (function (_React$Component) {
             var map = new google.maps.Map(document.getElementById('map'), mapOption);
 
             readTextFile("./mapstyle.json", function (fileContent) {
+=======
+'use strict';
+
+// //////////////////////////////////////////////////////////////////////////
+// Const
+// //////////////////////////////////////////////////////////////////////////
+
+var starsInfoStub = [{
+    lat: 35.681382,
+    lng: 139.7638953
+}, {
+    lat: 35.6845628,
+    lng: 139.7649038
+}, {
+    lat: 35.6845628,
+    lng: 139.7539038
+}];
+
+var map = undefined;
+var constellationPolyline = undefined;
+
+var GoogleMap = (function (_React$Component) {
+    _inherits(GoogleMap, _React$Component);
+
+    function GoogleMap() {
+        _classCallCheck(this, GoogleMap);
+
+        _get(Object.getPrototypeOf(GoogleMap.prototype), 'constructor', this).apply(this, arguments);
+    }
+
+    _createClass(GoogleMap, [{
+        key: 'render',
+
+        // //////////////////////////////////////////////////////////////////////////
+        // React lifecycle
+        // //////////////////////////////////////////////////////////////////////////
+
+        value: function render() {
+            return _react2['default'].createElement(
+                'div',
+                { className: 'GoogleMap' },
+                _react2['default'].createElement('div', { className: 'clouds' }),
+                _react2['default'].createElement('div', { className: 'stars' }),
+                _react2['default'].createElement('div', { id: 'map' })
+            );
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+
+            this.initMap();
+
+            this.addPath();
+
+            // add custom marker
+            for (var i = 0; i < starsInfoStub.length; i++) {
+                var planet = this.addMarker(map, starsInfoStub[i]);
+                this.rotatePlanet(planet);
+                this.showPopup(map, planet);
+                this.movePlanet(i, planet);
+            }
+        }
+
+        // //////////////////////////////////////////////////////////////////////////
+        // Map
+        // //////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Initialize map around Tokyo station
+         */
+    }, {
+        key: 'initMap',
+        value: function initMap() {
+
+            var mapOption = {
+                zoom: 17,
+                center: starsInfoStub[0]
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), mapOption);
+
+            this.readTextFile("./mapstyle.json", function (fileContent) {
+>>>>>>> master
                 var json = JSON.parse(fileContent);
                 // apply custom style to map
                 map.mapTypes.set('map_style', new google.maps.StyledMapType(json, { name: "Styled Map" }));
                 map.setMapTypeId('map_style');
             });
+<<<<<<< HEAD
 
             // add custom marker
             for (var i = 0; i < sampleCoordinates.length; i++) {
@@ -91,17 +175,26 @@ var GoogleMap = (function (_React$Component) {
                 strokeWeight: 2
             });
             constellationPath.setMap(map);
+=======
+>>>>>>> master
         }
 
         /**
          * Add marker based on coordinate
          * @param map
          * @param coordinate
+<<<<<<< HEAD
          * @param callback
          */
     }, {
         key: 'addMarker',
         value: function addMarker(map, coordinate, callback) {
+=======
+         */
+    }, {
+        key: 'addMarker',
+        value: function addMarker(map, coordinate) {
+>>>>>>> master
             var customSymbol = {
                 path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
                 fillColor: 'yellow',
@@ -112,15 +205,39 @@ var GoogleMap = (function (_React$Component) {
                 anchor: { x: 120, y: 120 }
             };
 
+<<<<<<< HEAD
             var planet = new google.maps.Marker({
+=======
+            return new google.maps.Marker({
+>>>>>>> master
                 map: map,
                 position: coordinate,
                 draggable: true,
                 title: 'planet',
                 icon: customSymbol
             });
+<<<<<<< HEAD
 
             callback(planet);
+=======
+        }
+
+        /**
+         * Add path among coordinates
+         */
+    }, {
+        key: 'addPath',
+        value: function addPath() {
+            // draw path among coordinates
+            constellationPolyline = new google.maps.Polyline({
+                path: starsInfoStub,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.5,
+                strokeWeight: 2
+            });
+            constellationPolyline.setMap(map);
+>>>>>>> master
         }
 
         /**
@@ -140,6 +257,13 @@ var GoogleMap = (function (_React$Component) {
             });
         }
 
+<<<<<<< HEAD
+=======
+        // //////////////////////////////////////////////////////////////////////////
+        // Animation
+        // //////////////////////////////////////////////////////////////////////////
+
+>>>>>>> master
         /**
          * Rotate planet marker
          * @param marker
@@ -148,7 +272,11 @@ var GoogleMap = (function (_React$Component) {
         key: 'rotatePlanet',
         value: function rotatePlanet(marker) {
             var count = 0;
+<<<<<<< HEAD
             var delay = getRandomInt(3, 30);
+=======
+            var delay = this.getRandomInt(3, 30);
+>>>>>>> master
             window.setInterval(function () {
                 count = count + 1;
                 var icon = marker.get('icon');
@@ -157,6 +285,32 @@ var GoogleMap = (function (_React$Component) {
             }, delay);
         }
 
+<<<<<<< HEAD
+=======
+        /**
+         * Move planet marker
+         * @param planet
+         */
+    }, {
+        key: 'movePlanet',
+        value: function movePlanet(index, planet) {
+            var count = 0;
+            var delay = 500; // 2sec
+            window.setInterval(function () {
+                count = count + 1;
+
+                // move star
+                var newLat = planet.position.lat() + count / 1000000;
+                var newLng = planet.position.lng() + count / 1000000;
+                planet.setPosition({ lat: newLat, lng: newLng });
+
+                // update polyline lat and lng
+                var path = constellationPolyline.getPath();
+                path.setAt(index, new google.maps.LatLng(newLat, newLng));
+            }, delay);
+        }
+
+>>>>>>> master
         // //////////////////////////////////////////////////////////////////////////
         // Util
         // //////////////////////////////////////////////////////////////////////////
@@ -194,6 +348,7 @@ var GoogleMap = (function (_React$Component) {
             };
             rawFile.send(null);
         }
+<<<<<<< HEAD
     }, {
         key: 'render',
         value: function render() {
@@ -206,6 +361,8 @@ var GoogleMap = (function (_React$Component) {
                 _react2['default'].createElement('script', { async: true, defer: true, src: 'https://maps.googleapis.com/maps/api/js?callback=initMap' })
             );
         }
+=======
+>>>>>>> master
     }]);
 
     return GoogleMap;
