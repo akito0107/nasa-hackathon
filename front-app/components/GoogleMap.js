@@ -1,4 +1,5 @@
 import React from 'react'
+import Modal from "./Modal";
 
 /**
  * Map.js
@@ -56,7 +57,7 @@ export default class GoogleMap extends React.Component {
         for (var i = 0; i < starsInfoStub.length; i++) {
             let planet = this.addMarker(map, starsInfoStub[i]);
             this.rotatePlanet(planet);
-            this.showPopup(map, planet);
+            this.showPopup(planet);
             this.movePlanet(i, planet);
         }
 
@@ -74,7 +75,8 @@ export default class GoogleMap extends React.Component {
 
         const mapOption = {
             zoom: 17,
-            center: starsInfoStub[0]
+            center: starsInfoStub[0],
+            disableDefaultUI: true
         };
 
         map = new google.maps.Map(document.getElementById('map'), mapOption);
@@ -92,7 +94,6 @@ export default class GoogleMap extends React.Component {
      * @param map
      * @param coordinate
      */
-
     addMarker(map, coordinate) {
         var customSymbol = {
             path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
@@ -114,6 +115,32 @@ export default class GoogleMap extends React.Component {
     }
 
     /**
+     * Change marker color to blue theme
+     *
+     * @param marker
+     */
+    changeMarkerColorBlue(marker) {
+        var icon = marker.getIcon();
+        icon.fillColor = '#0080d0';
+        icon.fillOpacity = 0.2;
+        icon.strokeColor = '#0080d0';
+        marker.setIcon(icon);
+    }
+
+    /**
+     * Change marker color to red theme
+     *
+     * @param marker
+     */
+    changeMarkerColorRed(marker) {
+        var icon = marker.getIcon();
+        icon.fillColor = '#d04000';
+        icon.fillOpacity = 0.2;
+        icon.strokeColor = '#d04000';
+        marker.setIcon(icon);
+    }
+
+    /**
      * Add path among coordinates
      */
     addPath() {
@@ -131,16 +158,12 @@ export default class GoogleMap extends React.Component {
 
     /**
      * Show popup window to explain detail explanation about each planet
-     * @param map
      * @param planet
      */
-    showPopup(map, planet) {
+    showPopup(planet) {
         // add event listener
         planet.addListener('click', function () {
-            const infoWindow = new google.maps.InfoWindow({
-                content: "A Planet Clicked!"
-            });
-            infoWindow.open(map, planet);
+            this.changeMarkerColorBlue(planet);
         });
     }
 
@@ -152,7 +175,6 @@ export default class GoogleMap extends React.Component {
      * Rotate planet marker
      * @param marker
      */
-
     rotatePlanet(marker) {
         var count = 0;
         var delay = this.getRandomInt(3, 30);

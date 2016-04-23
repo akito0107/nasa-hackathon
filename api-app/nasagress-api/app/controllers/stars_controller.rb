@@ -30,29 +30,35 @@ class StarsController < ApplicationController
     #現在時刻における春分点の経度(緯度は0で固定)
     equixLongtitude = baseLongtitude - revolutionAngle + rotationAngle
 
-    lon = params[:lon] - equixLongtitude
-    lat = params[:lat]
+    lon = params[:lon].to_f - equixLongtitude
+    lat = params[:lat].to_f
     # @stars = Star.join_score.to_json(include: {score: {only: :team_id}})
-    @stars = Star.all
+    @stars = Star.near_star(lon, lat)
     render :json => { :stars => @stars, :scores => @scores}
   end
 
   def hack
     star = Star.find(params[:star_id])
-    team = Team.find(params[:team_id])
+    red = Team.find_by_color('red')
+    blue = Team.find_by_color('blue')
 
     if team.color == 'blue' then
       if star.red_score > 0 then
-        star.red_score - 1
+        star.red_score -= 1
       else
-        star.blue_score + 1
+        star.blue_score += 1
       end
+      blue.score += 1
+      red.score -= 1
     elsif team.color == 'red' then
       if star.blue_score > 0 then
-        star.blue_score - 1
+        star.blue_score -= 1
       else
-        star.red_score + 1
+        star.red_score += 1
+        team.score += 1
       end
+      red.score += 1
+      blue.score -= 1
     end
 
     changed = false
@@ -61,7 +67,9 @@ class StarsController < ApplicationController
         star.team_id = team.id
         changed = true
     end
-    star.save
+    red.save!
+    blue.save!
+    star.save!
     render :json => {:star => star, :changed => changed}
   end
 

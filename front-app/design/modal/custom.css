@@ -5,9 +5,19 @@
 
 /* todo: delete */
 .wrapper {
-  width: 1300px;
-  height: 900px;
+  width: 1250px;
+  height: 850px;
   background-color: #050;
+}
+
+
+
+/* font */
+
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic);
+body {
+  font-family: Avenir , "Open Sans" , "Helvetica Neue" , Helvetica , Arial , Verdana , Roboto , "游ゴシック" , "Yu Gothic" , "游ゴシック体" , "YuGothic" , "ヒラギノ角ゴ Pro W3" , "Hiragino Kaku Gothic Pro" , "Meiryo UI" , "メイリオ" , Meiryo , "ＭＳ Ｐゴシック" , "MS PGothic" , sans-serif;
+  font-size: 17px;
 }
 
 
@@ -25,6 +35,7 @@
   border: solid 3px #fff;
   border-radius: 10px;
   width: 640px;
+  height: 350px;
 }
 .modal * {
   text-align: center;
@@ -34,12 +45,6 @@
           -1px 1px 2px #000,
           1px -1px 2px #000,
           -1px -1px 2px #000;
-}
-.star-modal {
-  height: 350px;
-}
-.action-modal {
-  height: 300px;
 }
 
 /* color */
@@ -110,20 +115,16 @@
 /* modal-body */
 
 .modal-body {
+  height: 300px;
   border-radius: 0 0 10px 10px;
   background-color: rgba(0,0,0,0.3);
-}
-.star-modal-body {
-  height: 300px;
-}
-.action-modal-body {
-  height: 250px;
 }
 .modal-body * {
   padding-top: 10px;
 }
 .modal-contents-big {
-  font-size: 50px;
+  padding-top: 30px;
+  font-size: 80px;
 }
 
 /* color */
