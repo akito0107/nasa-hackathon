@@ -13,7 +13,8 @@ var Index = React.createClass({
   }
 });
 
+// set short interval for test 
 React.render(
-  <Index />,
+  <Index url="starsInfo.json" pollInterval={5000} />,
   document.getElementById('container')
 );

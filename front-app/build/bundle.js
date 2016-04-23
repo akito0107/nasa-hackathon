@@ -97,6 +97,7 @@ var GoogleMap = (function (_React$Component) {
         /**
          * Initialize map around Tokyo station
          */
+
     }, {
         key: 'initMap',
         value: function initMap() {
@@ -121,6 +122,7 @@ var GoogleMap = (function (_React$Component) {
          * @param map
          * @param coordinate
          */
+
     }, {
         key: 'addMarker',
         value: function addMarker(map, coordinate) {
@@ -181,6 +183,7 @@ var GoogleMap = (function (_React$Component) {
          * Rotate planet marker
          * @param marker
          */
+
     }, {
         key: 'rotatePlanet',
         value: function rotatePlanet(marker) {
@@ -239,6 +242,7 @@ var GoogleMap = (function (_React$Component) {
          *
          * FIXME: XMLHttpRequest is depricated ... any alternatives?
          */
+
     }, {
         key: 'readTextFile',
         value: function readTextFile(filePath, callback) {
@@ -359,8 +363,8 @@ var MainFrame = (function (_React$Component) {
   }
 
   _createClass(MainFrame, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
+    key: 'loadStarsFromServer',
+    value: function loadStarsFromServer() {
       var _this = this;
 
       _jquery2['default'].ajax({
@@ -374,6 +378,12 @@ var MainFrame = (function (_React$Component) {
           console.error(_this.props.url, status, err.toString());
         }
       });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.loadStarsFromServer();
+      setInterval(this.loadStarsFromServer.bind(this), this.props.pollInterval);
     }
   }, {
     key: 'render',
@@ -646,7 +656,8 @@ var Index = _react2['default'].createClass({
   }
 });
 
-_react2['default'].render(_react2['default'].createElement(Index, null), document.getElementById('container'));
+// set short interval for test
+_react2['default'].render(_react2['default'].createElement(Index, { url: 'starsInfo.json', pollInterval: 5000 }), document.getElementById('container'));
 
 },{"./components/MainFrame":3,"./components/Menu":4,"react":165}],8:[function(require,module,exports){
 // shim for using process in browser

@@ -70,6 +70,7 @@ export default class GoogleMap extends React.Component {
     /**
      * Initialize map around Tokyo station
      */
+
     initMap() {
 
         const mapOption = {
@@ -92,6 +93,7 @@ export default class GoogleMap extends React.Component {
      * @param map
      * @param coordinate
      */
+
     addMarker(map, coordinate) {
         var customSymbol = {
             path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
@@ -147,6 +149,7 @@ export default class GoogleMap extends React.Component {
      * Rotate planet marker
      * @param marker
      */
+
     rotatePlanet(marker) {
         var count = 0;
         var delay = this.getRandomInt(3, 30);
@@ -201,6 +204,7 @@ export default class GoogleMap extends React.Component {
      *
      * FIXME: XMLHttpRequest is depricated ... any alternatives?
      */
+
     readTextFile(filePath, callback) {
         var rawFile = new XMLHttpRequest();
         rawFile.open("GET", filePath, false);
@@ -214,5 +218,4 @@ export default class GoogleMap extends React.Component {
         };
         rawFile.send(null);
     }
-
 }
