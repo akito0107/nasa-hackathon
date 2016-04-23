@@ -51,16 +51,15 @@ export default class GoogleMap extends React.Component {
 
         this.initMap();
 
-        // TODO:
-        // this.addPath();
-        //
-        // // add custom marker
-        // for (var i = 0; i < starsInfoStub.length; i++) {
-        //     let planet = this.addMarker(map, starsInfoStub[i]);
-        //     this.rotatePlanet(planet);
-        //     this.showPopup(planet);
-        //     this.movePlanet(i, planet);
-        // }
+        this.addPath();
+
+        // add custom marker
+        for (var i = 0; i < starsInfoStub.length; i++) {
+            let planet = this.addMarker(map, starsInfoStub[i]);
+            this.rotatePlanet(planet);
+            this.showPopup(planet);
+            this.movePlanet(i, planet);
+        }
 
     }
 
@@ -95,7 +94,6 @@ export default class GoogleMap extends React.Component {
      * @param map
      * @param coordinate
      */
-
     addMarker(map, coordinate) {
         var customSymbol = {
             path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
@@ -114,6 +112,32 @@ export default class GoogleMap extends React.Component {
             title: 'planet',
             icon: customSymbol
         });
+    }
+
+    /**
+     * Change marker color to blue theme
+     *
+     * @param marker
+     */
+    changeMarkerColorBlue(marker) {
+        var icon = marker.getIcon();
+        icon.fillColor = '#0080d0';
+        icon.fillOpacity = 0.2;
+        icon.strokeColor = '#0080d0';
+        marker.setIcon(icon);
+    }
+
+    /**
+     * Change marker color to red theme
+     *
+     * @param marker
+     */
+    changeMarkerColorRed(marker) {
+        var icon = marker.getIcon();
+        icon.fillColor = '#d04000';
+        icon.fillOpacity = 0.2;
+        icon.strokeColor = '#d04000';
+        marker.setIcon(icon);
     }
 
     /**
@@ -139,7 +163,7 @@ export default class GoogleMap extends React.Component {
     showPopup(planet) {
         // add event listener
         planet.addListener('click', function () {
-            Modal.handleClick();
+            this.changeMarkerColorBlue(planet);
         });
     }
 
@@ -151,7 +175,6 @@ export default class GoogleMap extends React.Component {
      * Rotate planet marker
      * @param marker
      */
-
     rotatePlanet(marker) {
         var count = 0;
         var delay = this.getRandomInt(3, 30);

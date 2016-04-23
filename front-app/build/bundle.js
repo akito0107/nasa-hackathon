@@ -79,16 +79,15 @@ var GoogleMap = (function (_React$Component) {
 
             this.initMap();
 
-            // TODO:
-            // this.addPath();
-            //
-            // // add custom marker
-            // for (var i = 0; i < starsInfoStub.length; i++) {
-            //     let planet = this.addMarker(map, starsInfoStub[i]);
-            //     this.rotatePlanet(planet);
-            //     this.showPopup(planet);
-            //     this.movePlanet(i, planet);
-            // }
+            this.addPath();
+
+            // add custom marker
+            for (var i = 0; i < starsInfoStub.length; i++) {
+                var planet = this.addMarker(map, starsInfoStub[i]);
+                this.rotatePlanet(planet);
+                this.showPopup(planet);
+                this.movePlanet(i, planet);
+            }
         }
 
         // //////////////////////////////////////////////////////////////////////////
@@ -124,7 +123,6 @@ var GoogleMap = (function (_React$Component) {
          * @param map
          * @param coordinate
          */
-
     }, {
         key: 'addMarker',
         value: function addMarker(map, coordinate) {
@@ -145,6 +143,36 @@ var GoogleMap = (function (_React$Component) {
                 title: 'planet',
                 icon: customSymbol
             });
+        }
+
+        /**
+         * Change marker color to blue theme
+         *
+         * @param marker
+         */
+    }, {
+        key: 'changeMarkerColorBlue',
+        value: function changeMarkerColorBlue(marker) {
+            var icon = marker.getIcon();
+            icon.fillColor = '#0080d0';
+            icon.fillOpacity = 0.2;
+            icon.strokeColor = '#0080d0';
+            marker.setIcon(icon);
+        }
+
+        /**
+         * Change marker color to red theme
+         *
+         * @param marker
+         */
+    }, {
+        key: 'changeMarkerColorRed',
+        value: function changeMarkerColorRed(marker) {
+            var icon = marker.getIcon();
+            icon.fillColor = '#d04000';
+            icon.fillOpacity = 0.2;
+            icon.strokeColor = '#d04000';
+            marker.setIcon(icon);
         }
 
         /**
@@ -173,7 +201,7 @@ var GoogleMap = (function (_React$Component) {
         value: function showPopup(planet) {
             // add event listener
             planet.addListener('click', function () {
-                _Modal2['default'].handleClick();
+                this.changeMarkerColorBlue(planet);
             });
         }
 
@@ -185,7 +213,6 @@ var GoogleMap = (function (_React$Component) {
          * Rotate planet marker
          * @param marker
          */
-
     }, {
         key: 'rotatePlanet',
         value: function rotatePlanet(marker) {
