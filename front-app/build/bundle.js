@@ -19,6 +19,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Modal = require("./Modal");
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
 /**
  * Map.js
  *
@@ -81,7 +85,7 @@ var GoogleMap = (function (_React$Component) {
             for (var i = 0; i < starsInfoStub.length; i++) {
                 var planet = this.addMarker(map, starsInfoStub[i]);
                 this.rotatePlanet(planet);
-                this.showPopup(map, planet);
+                this.showPopup(planet);
                 this.movePlanet(i, planet);
             }
         }
@@ -158,18 +162,14 @@ var GoogleMap = (function (_React$Component) {
 
         /**
          * Show popup window to explain detail explanation about each planet
-         * @param map
          * @param planet
          */
     }, {
         key: 'showPopup',
-        value: function showPopup(map, planet) {
+        value: function showPopup(planet) {
             // add event listener
             planet.addListener('click', function () {
-                var infoWindow = new google.maps.InfoWindow({
-                    content: "A Planet Clicked!"
-                });
-                infoWindow.open(map, planet);
+                _Modal2['default'].handleClick();
             });
         }
 
@@ -262,7 +262,7 @@ var GoogleMap = (function (_React$Component) {
 exports['default'] = GoogleMap;
 module.exports = exports['default'];
 
-},{"react":165}],2:[function(require,module,exports){
+},{"./Modal":5,"react":165}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -382,9 +382,41 @@ var MainFrame = (function (_React$Component) {
         'div',
         { className: 'MainFrame' },
         _react2['default'].createElement(
-          'h2',
-          null,
-          'MainFrame'
+          'div',
+          { 'class': 'header' },
+          _react2['default'].createElement(
+            'div',
+            { 'class': 'header-title' },
+            _react2['default'].createElement(
+              'p',
+              null,
+              'NASAGRESS'
+            )
+          )
+        ),
+        _react2['default'].createElement('div', { 'class': 'main main-blue' }),
+        _react2['default'].createElement(
+          'div',
+          { 'class': 'footer' },
+          _react2['default'].createElement(
+            'div',
+            { 'class': 'footer-modal footer-modal-blue' },
+            _react2['default'].createElement(
+              'p',
+              { 'class': 'footer-modal-content' },
+              _react2['default'].createElement(
+                'span',
+                { 'class': 'footer-modal-score-blue' },
+                'Earth 500'
+              ),
+              '-',
+              _react2['default'].createElement(
+                'span',
+                { 'class': 'footer-modal-score-red' },
+                'Alien 500'
+              )
+            )
+          )
         ),
         _react2['default'].createElement(_Star2['default'], { data: this.state.data }),
         _react2['default'].createElement(_Line2['default'], null),

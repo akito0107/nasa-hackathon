@@ -23,6 +23,6 @@ export default class Menu extends React.Component {
 }
 
 Menu.propTypes = {
-}
+};
 
 export default Menu

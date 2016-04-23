@@ -17,6 +17,9 @@ html, body {
     padding: 0;
 }
 
+.dispayNone {
+    display : none;
+}
 
 /*--------------------------
 Components

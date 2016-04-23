@@ -27,7 +27,20 @@ export default class MainFrame extends React.Component {
   render() {
     return(
       <div className='MainFrame'>
-        <h2>MainFrame</h2>
+        <div class="header">
+          <div class="header-title"><p>NASAGRESS</p></div>
+        </div>
+        <div class="main main-blue"></div>
+        <div class="footer">
+          <div class="footer-modal footer-modal-blue">
+            <p class="footer-modal-content">
+              <span class="footer-modal-score-blue">Earth 500</span>
+              -
+              <span class="footer-modal-score-red">Alien 500</span>
+            </p>
+          </div>
+        </div>
+
         <Star data={this.state.data} />
         <Line />
         <GoogleMap />
