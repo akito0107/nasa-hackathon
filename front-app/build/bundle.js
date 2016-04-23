@@ -23,52 +23,7 @@ var _react2 = _interopRequireDefault(_react);
  * Map.js
  *
  */
-var sampleCoordinates = [{
-    lat: 35.681382,
-    lng: 139.7638953
-}, {
-    lat: 35.6845628,
-    lng: 139.7649038
-}, {
-    lat: 35.6845628,
-    lng: 139.7539038
-}];
 
-<<<<<<< HEAD
-var GoogleMap = (function (_React$Component) {
-    _inherits(GoogleMap, _React$Component);
-
-    function GoogleMap() {
-        _classCallCheck(this, GoogleMap);
-
-        _get(Object.getPrototypeOf(GoogleMap.prototype), 'constructor', this).apply(this, arguments);
-    }
-
-    _createClass(GoogleMap, [{
-        key: 'initMap',
-
-        // //////////////////////////////////////////////////////////////////////////
-        // Const
-        // //////////////////////////////////////////////////////////////////////////
-
-        // //////////////////////////////////////////////////////////////////////////
-        // Map
-        // //////////////////////////////////////////////////////////////////////////
-
-        /**
-         * Initialize map around Tokyo station
-         */
-        value: function initMap() {
-
-            var mapOption = {
-                zoom: 17,
-                center: sampleCoordinates[0]
-            };
-
-            var map = new google.maps.Map(document.getElementById('map'), mapOption);
-
-            readTextFile("./mapstyle.json", function (fileContent) {
-=======
 'use strict';
 
 // //////////////////////////////////////////////////////////////////////////
@@ -138,6 +93,7 @@ var GoogleMap = (function (_React$Component) {
         /**
          * Initialize map around Tokyo station
          */
+
     }, {
         key: 'initMap',
         value: function initMap() {
@@ -150,51 +106,22 @@ var GoogleMap = (function (_React$Component) {
             map = new google.maps.Map(document.getElementById('map'), mapOption);
 
             this.readTextFile("./mapstyle.json", function (fileContent) {
->>>>>>> master
                 var json = JSON.parse(fileContent);
                 // apply custom style to map
                 map.mapTypes.set('map_style', new google.maps.StyledMapType(json, { name: "Styled Map" }));
                 map.setMapTypeId('map_style');
             });
-<<<<<<< HEAD
-
-            // add custom marker
-            for (var i = 0; i < sampleCoordinates.length; i++) {
-                addMarker(map, sampleCoordinates[i], function (planet) {
-                    rotatePlanet(planet);
-                    showPopup(map, planet);
-                });
-            }
-
-            // draw path among coordinators
-            var constellationPath = new google.maps.Polyline({
-                path: sampleCoordinates,
-                geodesic: true,
-                strokeColor: '#FF0000',
-                strokeOpacity: 0.5,
-                strokeWeight: 2
-            });
-            constellationPath.setMap(map);
-=======
->>>>>>> master
         }
 
         /**
          * Add marker based on coordinate
          * @param map
          * @param coordinate
-<<<<<<< HEAD
-         * @param callback
          */
-    }, {
-        key: 'addMarker',
-        value: function addMarker(map, coordinate, callback) {
-=======
-         */
+
     }, {
         key: 'addMarker',
         value: function addMarker(map, coordinate) {
->>>>>>> master
             var customSymbol = {
                 path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
                 fillColor: 'yellow',
@@ -205,21 +132,13 @@ var GoogleMap = (function (_React$Component) {
                 anchor: { x: 120, y: 120 }
             };
 
-<<<<<<< HEAD
-            var planet = new google.maps.Marker({
-=======
             return new google.maps.Marker({
->>>>>>> master
                 map: map,
                 position: coordinate,
                 draggable: true,
                 title: 'planet',
                 icon: customSymbol
             });
-<<<<<<< HEAD
-
-            callback(planet);
-=======
         }
 
         /**
@@ -237,7 +156,6 @@ var GoogleMap = (function (_React$Component) {
                 strokeWeight: 2
             });
             constellationPolyline.setMap(map);
->>>>>>> master
         }
 
         /**
@@ -257,26 +175,20 @@ var GoogleMap = (function (_React$Component) {
             });
         }
 
-<<<<<<< HEAD
-=======
         // //////////////////////////////////////////////////////////////////////////
         // Animation
         // //////////////////////////////////////////////////////////////////////////
 
->>>>>>> master
         /**
          * Rotate planet marker
          * @param marker
          */
+
     }, {
         key: 'rotatePlanet',
         value: function rotatePlanet(marker) {
             var count = 0;
-<<<<<<< HEAD
-            var delay = getRandomInt(3, 30);
-=======
             var delay = this.getRandomInt(3, 30);
->>>>>>> master
             window.setInterval(function () {
                 count = count + 1;
                 var icon = marker.get('icon');
@@ -285,8 +197,6 @@ var GoogleMap = (function (_React$Component) {
             }, delay);
         }
 
-<<<<<<< HEAD
-=======
         /**
          * Move planet marker
          * @param planet
@@ -310,7 +220,6 @@ var GoogleMap = (function (_React$Component) {
             }, delay);
         }
 
->>>>>>> master
         // //////////////////////////////////////////////////////////////////////////
         // Util
         // //////////////////////////////////////////////////////////////////////////
@@ -333,6 +242,7 @@ var GoogleMap = (function (_React$Component) {
          *
          * FIXME: XMLHttpRequest is depricated ... any alternatives?
          */
+
     }, {
         key: 'readTextFile',
         value: function readTextFile(filePath, callback) {
@@ -348,21 +258,6 @@ var GoogleMap = (function (_React$Component) {
             };
             rawFile.send(null);
         }
-<<<<<<< HEAD
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2['default'].createElement(
-                'div',
-                { className: 'GoogleMap' },
-                _react2['default'].createElement('div', { className: 'clouds' }),
-                _react2['default'].createElement('div', { className: 'stars' }),
-                _react2['default'].createElement('div', { id: 'map' }),
-                _react2['default'].createElement('script', { async: true, defer: true, src: 'https://maps.googleapis.com/maps/api/js?callback=initMap' })
-            );
-        }
-=======
->>>>>>> master
     }]);
 
     return GoogleMap;
