@@ -17,8 +17,31 @@ class StarsController < ApplicationController
   end
 
   def hack
-    @star = Star.find(params[:star_id])
-    render :json => @stars
+    star = Star.find(params[:star_id])
+    team = Team.find(params[:team_id])
+
+    if team.color == 'blue' then
+      if star.red_score > 0 then
+        star.red_score - 1
+      else
+        star.blue_score + 1
+      end
+    elsif team.color == 'red' then
+      if star.blue_score > 0 then
+        star.blue_score - 1
+      else
+        star.red_score + 1
+      end
+    end
+
+    changed = false
+
+    if star.red_score == 0 && star.blue_score == 0 then
+        star.team_id = team.id
+        changed = true
+    end
+    star.save
+    render :json => {:star => star, :changed => changed}
   end
 
   # GET /stars/1
