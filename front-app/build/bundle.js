@@ -110,10 +110,10 @@ var GoogleMap = (function (_React$Component) {
 
                     if (map == null) {
 
-                        _this2.initMap(data[0]);
+                        _this2.initMap(data.stars[0]);
 
-                        for (i = 0; i < data.length; i++) {
-                            var planet = _this2.addMarker(map, data[i]);
+                        for (i = 0; i < data.stars.length; i++) {
+                            var planet = _this2.addMarker(map, data.stars[i]);
                             _this2.rotatePlanet(planet);
                             _this2.showPopup(planet);
                             _this2.movePlanet(i, planet);
@@ -121,9 +121,9 @@ var GoogleMap = (function (_React$Component) {
                         }
                     } else {
                         // add custom marker
-                        for (i = 0; i < data.length; i++) {
+                        for (i = 0; i < data.stars.length; i++) {
                             var planet = planets.getAt(i);
-                            planet.setPosition(new google.maps.LatLng(parseFloat(data[i].lat), parseFloat(data[i].lon)));
+                            planet.setPosition(new google.maps.LatLng(parseFloat(data.stars[i].lat), parseFloat(data.stars[i].lon)));
                         }
                     }
                 },
