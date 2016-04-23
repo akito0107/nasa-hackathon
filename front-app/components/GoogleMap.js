@@ -40,15 +40,20 @@ export default class GoogleMap extends React.Component {
 
                     this.initMap(data.stars[0]);
 
-                    for (i = 0; i < data.stars.length; i++) {
-                        let planet = this.addMarker(map, data.stars[i]);
-                        this.rotatePlanet(planet);
-                        this.showPopup(planet);
-                        this.movePlanet(i, planet);
-                        planets.push(planet);
-                    }
-                } else {
+                    data.stars.forEach((star) => {
+                      const planet = this.addMarker(map, star);
+                      this.rotatePlanet(planet);
+                      this.showPopup(planet);
+                      if(star.team_id === "2"){
+                        this.changeMarkerColorRed(planet);
+                      }
+                      if(star.team_id === "1"){
+                        this.changeMarkerColorBlue(planet);
+                      }
+                      planets.push(planet);
+                }) }else {
                     // add custom marker
+
                     for (i = 0; i < data.stars.length; i++) {
                         let planet = planets.getAt(i);
                         planet.setPosition(new google.maps.LatLng(parseFloat(data.stars[i].lat), parseFloat(data.stars[i].lon)));
@@ -190,7 +195,7 @@ export default class GoogleMap extends React.Component {
             strokeWeight: 5,
             anchor: {x: 120, y: 120}
         };
-
+        
         return new google.maps.Marker({
             map: map,
             position: new google.maps.LatLng(parseFloat(data.lat), parseFloat(data.lon)),
