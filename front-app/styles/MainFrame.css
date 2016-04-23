@@ -1,0 +1,95 @@
+/*--------------------------
+General
+--------------------------*/
+
+/* invert */
+
+.invert {
+    filter: invert(100%);
+}
+
+/* main */
+
+#container, .MainFrame {
+    wigth: 100%;
+    height: 100%;
+}
+
+.main {
+    height: 80vh;
+    width: 100vw;
+    margin: 0 auto;
+    border: solid 1px #fff;
+}
+
+/* color */
+.main-blue {
+    border-color: #0080d0;
+}
+
+.main-red {
+    border-color: #d04000;
+}
+
+/* header */
+
+.header {
+    height: 10vh;
+    background-color: #000;
+}
+
+.header-title {
+    font-size: xx-large;
+    top: 5vh;
+    position: relative;
+    height: 10vh;
+}
+
+.header-title * {
+    text-align: center;
+    color: #ccc;
+}
+
+/* footer */
+
+.footer {
+    height: 10vh;
+    background-color: #000;
+    padding-top: 1vh;
+}
+
+.footer-modal {
+    width: 40vw;
+    height: 5vh;
+    margin: auto;
+    padding: 0;
+    border: solid 1px #fff;
+}
+
+.footer-modal-content {
+    color: #ccc;
+    height: 5vh;
+    padding: 10px;
+    text-align: center;
+}
+
+/* color */
+.footer-modal-blue {
+    border-color: #0080d0;
+    background-color: rgba(0, 150, 255, 0.2);
+}
+
+.footer-modal-red {
+    border-color: #d04000;
+    background-color: rgba(255, 150, 0, 0.2);
+}
+
+.footer-modal-score-blue {
+    color: #00c0f0;
+    float: left;
+}
+
+.footer-modal-score-red {
+    color: #f04000;
+    float: right;
+}
