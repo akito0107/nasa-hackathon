@@ -62,3 +62,6 @@ jspm_packages
 # DS_Store
 .DS_Store
 front-app/.DS_Store
+
+# Config
+front-app/googlemap.config.json
