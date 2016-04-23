@@ -7,21 +7,30 @@
 // //////////////////////////////////////////////////////////////////////////
 // Const
 // //////////////////////////////////////////////////////////////////////////
-
-const sampleCoordinates = [
+var sampleStars = [
     {
-        lat: 35.681382,
-        lng: 139.7638953
-    },
-    {
-        lat: 35.6845628,
-        lng: 139.7649038
-    },
-    {
-        lat: 35.6845628,
-        lng: 139.7539038
+        id: 0,
+        Position: {
+            lat: 35.681382,
+            lng: 139.7638953
+        }
+    }, {
+        id: 1,
+        Position: {
+            lat: 35.6845628,
+            lng: 139.7649038
+        }
+    }, {
+        id: 2,
+        Position: {
+            lat: 35.6845628,
+            lng: 139.7539038
+        }
     }
 ];
+
+var constellationPolyline;
+
 // //////////////////////////////////////////////////////////////////////////
 // Map
 // //////////////////////////////////////////////////////////////////////////
@@ -33,7 +42,7 @@ function initMap() {
 
     const mapOption = {
         zoom: 17,
-        center: sampleCoordinates[0],
+        center: sampleStars[0].Position,
         disableDefaultUI: true
     };
 
@@ -46,26 +55,36 @@ function initMap() {
         map.setMapTypeId('map_style');
     });
 
-    // add custom marker
-    for (var i = 0; i < sampleCoordinates.length; i++) {
-        addMarker(map, sampleCoordinates[i], function (planet) {
-            rotatePlanet(planet);
-            movePlanet(planet);
-            showPopup(map, planet);
-        });
+    var constellationPaths = [];
+    for (var key in sampleStars) {
+        constellationPaths.push(sampleStars[key].Position);
     }
-
-    // draw path among coordinators
-    const constellationPath = new google.maps.Polyline({
-        path: sampleCoordinates,
+    constellationPolyline = new google.maps.Polyline({
+        path: constellationPaths,
         geodesic: true,
         strokeColor: '#FF0000',
         strokeOpacity: 0.5,
         strokeWeight: 2
     });
-    constellationPath.setMap(map);
+    constellationPolyline.setMap(map);
+
+    // add custom marker
+    for (var i = 0; i < sampleStars.length; i++) {
+        addMarker(map, sampleStars[i].Position, function (planet) {
+            rotatePlanet(planet);
+            showPopup(map, planet);
+            movePlanet(planet, sampleStars[i], function (star) {
+                updatePolyline(star);
+            });
+        });
+    }
+
 
 }
+
+// //////////////////////////////////////////////////////////////////////////
+// DOM
+// //////////////////////////////////////////////////////////////////////////
 
 /**
  * Add marker based on coordinate
@@ -110,6 +129,10 @@ function showPopup(map, planet) {
     });
 }
 
+// //////////////////////////////////////////////////////////////////////////
+// Animation
+// //////////////////////////////////////////////////////////////////////////
+
 /**
  * Rotate planet marker
  * @param marker
@@ -125,16 +148,38 @@ function rotatePlanet(marker) {
     }, delay);
 }
 
-function movePlanet(planet) {
+/**
+ * Move planet marker
+ * @param planet
+ */
+function movePlanet(planet, star, callback) {
     var count = 0;
-    var delay = 2000; // 2sec
+    var delay = 500; // 2sec
     window.setInterval(function () {
         count = count + 1;
-        var newLat = planet.position.lat() + count/10000;
-        var newLng = planet.position.lng() + count/10000;
-        console.log("lat : " + newLat + "/ lng : " + newLng);
+
+        // move star
+        var newLat = planet.position.lat() + count / 1000000;
+        var newLng = planet.position.lng() + count / 1000000;
         planet.setPosition({lat: newLat, lng: newLng});
+
+        // update lat and lng
+        star.Position.lat = newLat;
+        star.Position.lng = newLng;
+        callback(star);
+
     }, delay);
+}
+
+/**
+ * Update poly-line based on stars coordinates
+ * @param map
+ */
+function updatePolyline(star) {
+
+    var path = constellationPolyline.getPath();
+    path.setAt(star.id, new google.maps.LatLng(star.Position.lat, star.Position.lng));
+
 }
 
 // //////////////////////////////////////////////////////////////////////////
