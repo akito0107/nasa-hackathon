@@ -1,23 +1,20 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router'
-import styles from 'styles/components/organisums/scout/sidebar.css'
+import React from 'react'
 
-class Menu extends Component {
-
+export default class Menu extends React.Component {
   render() {
     return (
-      <div className={styles.menu}>
-        <h1 className={styles.title}>メニュー</h1>
-        <div className={styles.container}>
+      <div className="menu">
+        <h1 className="title">メニュー</h1>
+        <div className="container">
           なんらかの要素
         </div>
-        <div className={styles.container}>
+        <div className="container">
           なんらかの要素
         </div>
-        <div className={styles.container}>
+        <div className="container">
           なんらかの要素
         </div>
-        <div className={styles.container}>
+        <div className="container">
           なんらかの要素
         </div>
       </div>
