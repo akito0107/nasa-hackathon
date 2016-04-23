@@ -1,3 +1,4 @@
+import ReactDom from 'react-dom'
 import React from 'react'
 import GoogleMap from './GoogleMap'
 import $ from 'jquery'

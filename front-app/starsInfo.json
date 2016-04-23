@@ -1,6 +1,27 @@
-[
-  {"id": "1", "name": "name1", "lon": "111.1212222", "lat": "11.1234567", "blue_score":"3", "red_score":"0",  "team_id": "blue"},
-  {"id": "2", "name": "name2", "lon": "122.1212222", "lat": "22.1234567", "blue_score":"2", "red_score":"0",  "team_id": "blue"},
-  {"id": "3", "name": "name3", "lon": "133.1212222", "lat": "33.1234567", "blue_score":"0", "red_score":"4",  "team_id": "red"},
-  {"id": "4", "name": "name4", "lon": "144.1212222", "lat": "44.1234567", "blue_score":"0", "red_score":"5",  "team_id": "red"}
-]
+{
+	"stars": [{
+		"id": "1",
+		"lon": "111.1212222",
+		"lat": "11.1234567",
+		"team_id": "2"
+	}, {
+		"id": "2",
+		"lon": "111.124",
+		"lat": "11.1234567",
+		"team_id": "1"
+	}, {
+		"id": "3",
+		"lon": "111.123",
+		"lat": "11.1234567",
+		"team_id": "0"
+	}, {
+		"id": "4",
+		"lon": "111.1212341",
+		"lat": "11.1234567",
+		"team_id": "2"
+	}],
+	"score": {
+		"blue_score": "300",
+		"red_score": "900"
+	}
+}

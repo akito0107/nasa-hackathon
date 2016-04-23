@@ -1,3 +1,4 @@
+import ReactDom from 'react-dom'
 import React from 'react'
 
 export default class Hack extends React.Component {
