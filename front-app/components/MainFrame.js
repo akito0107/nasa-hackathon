@@ -92,7 +92,7 @@ export default class MainFrame extends React.Component {
                 </div>
 
                 <div className="main main-blue">
-                    <GoogleMap url="starsInfo.json" pollInterval={5000}/>
+                    <GoogleMap url="http://localhost:3000/main" pollInterval={5000}/>
                 </div>
 
                 <div className="footer">

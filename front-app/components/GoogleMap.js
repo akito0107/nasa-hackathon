@@ -38,6 +38,49 @@ export default class GoogleMap extends React.Component {
 
                 if (map == null) {
 
+                    this.initMap(data.stars[0]);
+
+                    for (i = 0; i < data.stars.length; i++) {
+                        let planet = this.addMarker(map, data.stars[i]);
+                        this.rotatePlanet(planet);
+                        this.showPopup(planet);
+                        this.movePlanet(i, planet);
+                        planets.push(planet);
+                    }
+                } else {
+                    // add custom marker
+                    for (i = 0; i < data.stars.length; i++) {
+                        let planet = planets.getAt(i);
+                        planet.setPosition(new google.maps.LatLng(parseFloat(data.stars[i].lat), parseFloat(data.stars[i].lon)));
+                    }
+                }
+
+
+            },
+            error: (xhr, status, err) => {
+                console.error(this.props.url, status, err.toString());
+            }
+        });
+    }
+
+    loadMainFromServer() {
+        $.ajax({
+            type: 'GET',
+            url: this.props.url,
+            data: {
+                // TODO
+                lon: '4.82092175',
+                lat: '14.05479812'
+            },
+            dataType: 'json',
+            cache: false,
+            success: (data) => {
+                this.setState({data: data});
+
+                var i;
+
+                if (map == null) {
+
                     this.initMap(data[0]);
 
                     for (i = 0; i < data.length; i++) {
@@ -54,8 +97,28 @@ export default class GoogleMap extends React.Component {
                         planet.setPosition(new google.maps.LatLng(parseFloat(data[i].lat), parseFloat(data[i].lon)));
                     }
                 }
+            },
+            error: (xhr, status, err) => {
+                console.error(this.props.url, status, err.toString());
+            }
+        });
+    }
 
-
+    loadStarFromServer() {
+        $.ajax({
+            type: 'POST',
+            url: this.props.url,
+            data: {
+                // TODO
+                team_id: '1',
+                star_id: '100',
+                lon: '34.646111111',
+                lat: '135.001472222'
+            },
+            dataType: 'json',
+            cache: false,
+            success: (data) => {
+                this.setState({data: data});
             },
             error: (xhr, status, err) => {
                 console.error(this.props.url, status, err.toString());
@@ -81,6 +144,9 @@ export default class GoogleMap extends React.Component {
 
         this.loadStarsFromServer();
         setInterval(this.loadStarsFromServer.bind(this), this.props.pollInterval);
+
+        // this.loadMainFromServer();
+        // setInterval(this.loadMainFromServer.bind(this), this.props.pollInterval);
     }
 
     // //////////////////////////////////////////////////////////////////////////

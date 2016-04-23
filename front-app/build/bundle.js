@@ -66,13 +66,57 @@ var GoogleMap = (function (_React$Component) {
 
                     if (map == null) {
 
-                        _this.initMap(data[0]);
+                        _this.initMap(data.stars[0]);
 
-                        for (i = 0; i < data.length; i++) {
-                            var planet = _this.addMarker(map, data[i]);
+                        for (i = 0; i < data.stars.length; i++) {
+                            var planet = _this.addMarker(map, data.stars[i]);
                             _this.rotatePlanet(planet);
                             _this.showPopup(planet);
                             _this.movePlanet(i, planet);
+                            planets.push(planet);
+                        }
+                    } else {
+                        // add custom marker
+                        for (i = 0; i < data.stars.length; i++) {
+                            var planet = planets.getAt(i);
+                            planet.setPosition(new google.maps.LatLng(parseFloat(data.stars[i].lat), parseFloat(data.stars[i].lon)));
+                        }
+                    }
+                },
+                error: function error(xhr, status, err) {
+                    console.error(_this.props.url, status, err.toString());
+                }
+            });
+        }
+    }, {
+        key: 'loadMainFromServer',
+        value: function loadMainFromServer() {
+            var _this2 = this;
+
+            _jquery2['default'].ajax({
+                type: 'GET',
+                url: this.props.url,
+                data: {
+                    // TODO
+                    lon: '4.82092175',
+                    lat: '14.05479812'
+                },
+                dataType: 'json',
+                cache: false,
+                success: function success(data) {
+                    _this2.setState({ data: data });
+
+                    var i;
+
+                    if (map == null) {
+
+                        _this2.initMap(data[0]);
+
+                        for (i = 0; i < data.length; i++) {
+                            var planet = _this2.addMarker(map, data[i]);
+                            _this2.rotatePlanet(planet);
+                            _this2.showPopup(planet);
+                            _this2.movePlanet(i, planet);
                             planets.push(planet);
                         }
                     } else {
@@ -84,7 +128,32 @@ var GoogleMap = (function (_React$Component) {
                     }
                 },
                 error: function error(xhr, status, err) {
-                    console.error(_this.props.url, status, err.toString());
+                    console.error(_this2.props.url, status, err.toString());
+                }
+            });
+        }
+    }, {
+        key: 'loadStarFromServer',
+        value: function loadStarFromServer() {
+            var _this3 = this;
+
+            _jquery2['default'].ajax({
+                type: 'POST',
+                url: this.props.url,
+                data: {
+                    // TODO
+                    team_id: '1',
+                    star_id: '100',
+                    lon: '34.646111111',
+                    lat: '135.001472222'
+                },
+                dataType: 'json',
+                cache: false,
+                success: function success(data) {
+                    _this3.setState({ data: data });
+                },
+                error: function error(xhr, status, err) {
+                    console.error(_this3.props.url, status, err.toString());
                 }
             });
         }
@@ -110,6 +179,9 @@ var GoogleMap = (function (_React$Component) {
 
             this.loadStarsFromServer();
             setInterval(this.loadStarsFromServer.bind(this), this.props.pollInterval);
+
+            // this.loadMainFromServer();
+            // setInterval(this.loadMainFromServer.bind(this), this.props.pollInterval);
         }
 
         // //////////////////////////////////////////////////////////////////////////
@@ -472,7 +544,7 @@ var MainFrame = (function (_React$Component) {
                 _react2['default'].createElement(
                     'div',
                     { className: 'main main-blue' },
-                    _react2['default'].createElement(_GoogleMap2['default'], { url: 'starsInfo.json', pollInterval: 5000 })
+                    _react2['default'].createElement(_GoogleMap2['default'], { url: 'http://localhost:3000/main', pollInterval: 5000 })
                 ),
                 _react2['default'].createElement(
                     'div',
@@ -526,13 +598,13 @@ var Index = _react2['default'].createClass({
         return _react2['default'].createElement(
             'div',
             null,
-            _react2['default'].createElement(_componentsMainFrame2['default'], { url: 'starsInfo.json' })
+            _react2['default'].createElement(_componentsMainFrame2['default'], { url: 'http://localhost:3000/main' })
         );
     }
 });
 
 // set short interval for test
-_react2['default'].render(_react2['default'].createElement(Index, { url: 'starsInfo.json', pollInterval: 5000 }), document.getElementById('container'));
+_react2['default'].render(_react2['default'].createElement(Index, { url: 'http://localhost:3000/main', pollInterval: 5000 }), document.getElementById('container'));
 
 },{"./components/MainFrame":2,"react":161}],4:[function(require,module,exports){
 // shim for using process in browser
