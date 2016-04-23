@@ -30,10 +30,11 @@ class StarsController < ApplicationController
     #現在時刻における春分点の経度(緯度は0で固定)
     equixLongtitude = baseLongtitude - revolutionAngle + rotationAngle
 
-    lon = params[:lon] - equixLongtitude
-    lat = params[:lat]
+    lon = params[:lon].to_f - equixLongtitude
+    lat = params[:lat].to_f
     # @stars = Star.join_score.to_json(include: {score: {only: :team_id}})
-    @stars = Star.all
+    @stars = Star.near_star(lon, lat)
+    p @stars
     render :json => { :stars => @stars, :scores => @scores}
   end
 

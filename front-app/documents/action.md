@@ -27,8 +27,11 @@
 
 ```
 * 緯度経度は 10進法 135.6733223 を利用
-* チームの合計スコアを求めるときは、全レコードの blue_score/red_score の値を合計する
+* チームの合計スコアを求めるときは、Teamテーブルを利用する
 * score は以下を満たすものとする
+  * Team テーブルと同期する
+    * blue_score を update するとき、team.score (team.id = 1) も同じように update
+    * red_score を update するとき、team.score (team.id = 2) も同じように update
   * team = 1 (Earth/Blue) が Hack して update するとき,
     * red_score > 0 であれば red_score を -1
     * red_score <= 0 であれば blue_score を +1 (更新前が red_score == 0 && blue_score == 0 だったら team_id = 1 に update)
@@ -52,10 +55,12 @@
 - id
 - name
 - color
+- score
 
 ```
 * チームは {0, Not, white}, {1, Earth, blue}, {2, Alien, red} の3つを想定。道などをGREENで表示。
-* 0 を明記しているのはシステム都合で万が一必要になったときの予防策。
+  * 0 を明記しているのはシステム都合で万が一必要になったときの予防策。
+* score（チームの持つスコア合計）の更新は Star テーブルの更新と同期を取る。
 ```
 
 
