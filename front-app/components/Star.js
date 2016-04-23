@@ -1,3 +1,4 @@
+import ReactDom from 'react-dom'
 import React from 'react'
 
 export default class Star extends React.Component {
@@ -30,7 +31,7 @@ export default class Star extends React.Component {
             }
         }
     }
-    
+
     render() {
         const styles = this.styles();
         var style_modal = styles.modal.white;
@@ -38,7 +39,7 @@ export default class Star extends React.Component {
         var style_modal_contents = styles.modal_contents.white;
         var style_modal_hr = styles.modal_hr.white;
         var style_modal_button = styles.modal_button.white;
-        
+
         this.props.data.map((team_id)=> {
             if(team_id == 1) {
                 style_modal = styles.modal.blue;
@@ -54,10 +55,10 @@ export default class Star extends React.Component {
                 style_modal_button = styles.modal_button.red;
             }
         });
-        
+
         // TODO: どう受け渡す？
         var star = {};
-        
+
         // TODO: チーム周りはどこかで一括管理する？
         var team_name = "No";
         if(star.team_id == 1){
@@ -65,7 +66,7 @@ export default class Star extends React.Component {
         } else if(star.team_id == 2){
             team_name = "Alien"
         }
-        
+
         return(
             <div className={style_modal}>
                 <div className="modal-header">
