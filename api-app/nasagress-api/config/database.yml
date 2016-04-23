@@ -5,9 +5,15 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: nasagress_development
   pool: 5
-  timeout: 5000
+  username: root
+  password: mysql
+  host: 192.168.99.100
+
 
 development:
   adapter: mysql2

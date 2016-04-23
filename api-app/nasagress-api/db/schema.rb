@@ -11,27 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160423111012) do
+ActiveRecord::Schema.define(version: 20160423143540) do
 
-  create_table "scores", force: :cascade do |t|
-    t.integer  "star_id",    limit: 4
-    t.integer  "team_id",    limit: 4
-    t.integer  "count",      limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+  create_table "constellations", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "stars", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.text     "description", limit: 65535
-    t.decimal  "lon",                       precision: 9, scale: 6
-    t.decimal  "lat",                       precision: 9, scale: 6
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.string   "name",             limit: 255
+    t.text     "description",      limit: 65535
+    t.integer  "constellation_id", limit: 4
+    t.decimal  "lon",                            precision: 9, scale: 6
+    t.decimal  "lat",                            precision: 9, scale: 6
+    t.integer  "blue_score",       limit: 4
+    t.integer  "red_score",        limit: 4
+    t.integer  "team_id",          limit: 4
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
   end
 
   create_table "teams", force: :cascade do |t|
     t.string   "name",       limit: 255
+    t.string   "color",      limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end

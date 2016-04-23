@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
+  resources :teams
+  resources :constellations
   match "main", :controller => :stars, :action => :main, :via => :get
   match "star", :controller => :stars, :action => :show, :via => :get
   match "hack", :controller => :stars, :action => :hack, :via => :post
   resources :stars
-  resources :teams
-  resources :scores
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

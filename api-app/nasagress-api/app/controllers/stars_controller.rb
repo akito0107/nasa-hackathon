@@ -12,13 +12,12 @@ class StarsController < ApplicationController
     #lon = params[:lon]
     #lat = params[:lat]
     # @stars = Star.join_score.to_json(include: {score: {only: :team_id}})
-    @stars = Star.includes(:score)
-    @scores = Score.group(:team_id).sum(:count)
+    @stars = Star.all
     render :json => { :stars => @stars, :scores => @scores}
   end
 
   def hack
-    @stars = Star.all
+    @star = Star.find(params[:star_id])
     render :json => @stars
   end
 
