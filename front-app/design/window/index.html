@@ -1,17 +1,29 @@
 <!-- JSX化するまでの暫定 -->
+<!-- TODO: main-blue, footer-modal-blue は赤チームだったらそれぞれ xxx-red に書き換える -->
+<!-- TODO: Hackの通信がOKだったら body に invert クラスを追加 -> 0.5秒sleep -> invert クラスを外すとそれっぽい演出になる -->
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hack</title>
+    <title>NASAGRESS</title>
     <link rel="stylesheet" type="text/css" href="reset.css">
     <link rel="stylesheet" type="text/css" href="custom.css">
 </head>
 <body>
 <div class="wrapper"><!-- todo: delete -->
-    <div class="header"></div>
-    <div class="main"></div>
-    <div class="footer"></div>
+    <div class="header">
+        <div class="header-title"><p>NASAGRESS</p></div>
+    </div>
+    <div class="main main-blue"></div>
+    <div class="footer">
+        <div class="footer-modal footer-modal-blue">
+            <p class="footer-modal-content">
+                <span class="footer-modal-score-blue">Earth 500</span>
+                -
+                <span class="footer-modal-score-red">Alien 500</span>
+            </p>
+        </div>
+    </div>
 </div>
 </body>
 </html>
