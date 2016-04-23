@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20160423143540) do
     t.integer  "blue_score",       limit: 4
     t.integer  "red_score",        limit: 4
     t.integer  "team_id",          limit: 4
+    t.spatial  "latlon"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
   end

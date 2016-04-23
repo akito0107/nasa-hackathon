@@ -1,6 +1,6 @@
 class CreateStars < ActiveRecord::Migration
   def change
-    create_table :stars do |t|
+    create_table :stars, :options => 'ENGINE=MyISAM' do |t|
       t.string :name
       t.text :description
       t.integer :constellation_id
@@ -9,6 +9,7 @@ class CreateStars < ActiveRecord::Migration
       t.integer :blue_score
       t.integer :red_score
       t.integer :team_id
+      t.column :latlon, :point
 
       t.timestamps null: false
     end
