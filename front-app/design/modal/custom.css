@@ -25,6 +25,7 @@
   border: solid 3px #fff;
   border-radius: 10px;
   width: 640px;
+  height: 350px;
 }
 .modal * {
   text-align: center;
@@ -34,12 +35,6 @@
           -1px 1px 2px #000,
           1px -1px 2px #000,
           -1px -1px 2px #000;
-}
-.star-modal {
-  height: 350px;
-}
-.action-modal {
-  height: 300px;
 }
 
 /* color */
@@ -110,20 +105,16 @@
 /* modal-body */
 
 .modal-body {
+  height: 300px;
   border-radius: 0 0 10px 10px;
   background-color: rgba(0,0,0,0.3);
-}
-.star-modal-body {
-  height: 300px;
-}
-.action-modal-body {
-  height: 250px;
 }
 .modal-body * {
   padding-top: 10px;
 }
 .modal-contents-big {
-  font-size: 50px;
+  padding-top: 30px;
+  font-size: 80px;
 }
 
 /* color */
