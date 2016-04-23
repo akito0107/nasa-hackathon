@@ -11,6 +11,21 @@ export default class MainFrame extends React.Component {
         };
     }
 
+    styles() {
+        return {
+            main: {
+                blue: "main main-blue",
+                red: "main main-red",
+                white: "main"
+            },
+            footer_modal: {
+                blue: "footer-modal footer-modal-blue",
+                red: "footer-modal footer-modal-red",
+                white: "footer-modal"
+            }
+        }
+    }
+
     // //////////////////////////////////////////////////////////////////////////
     // API
     // //////////////////////////////////////////////////////////////////////////
@@ -84,22 +99,36 @@ export default class MainFrame extends React.Component {
     }
 
     render() {
+        const styles = this.styles();
+        var style_main = styles.main.white;
+        var style_footer_modal = styles.footer_modal.white;
+
+        this.props.data.map((team_id)=> {
+            if(team_id == 1) {
+                style_main = styles.main.blue;
+                style_footer_modal = styles.footer_modal.blue;
+            } else if(team_id == 2) {
+                style_main = styles.main.red;
+                style_footer_modal = styles.footer_modal.red;
+            }
+        }
+            
+        // TODO: 受け渡し
+        var scores = [];
+        
         return (
             <div className='MainFrame'>
-
                 <div className="header">
                     <div className="header-title"><p>NASAGRESS</p></div>
                 </div>
-
-                <div className="main main-blue">
+                <div className={style_main}>
                     <GoogleMap />
                 </div>
-
                 <div className="footer">
-                    <div className="footer-modal footer-modal-blue">
+                    <div className={style_footer_modal}>
                         <p className="footer-modal-content">
-                            <span className="footer-modal-score-blue">Earth 500</span>
-                            <span className="footer-modal-score-red">Alien 500</span>
+                            <span className="footer-modal-score-blue">Earth {scores.blue_score}</span>
+                            <span className="footer-modal-score-red">Alien {scores.red_score}</span>
                         </p>
                     </div>
                 </div>
