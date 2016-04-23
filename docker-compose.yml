@@ -1,0 +1,10 @@
+node:
+  build: ./websock-app
+  ports:
+    - "3080:3080"
+  links:
+    - redis
+redis:
+  image: smebberson/alpine-redis
+  ports:
+    - "6379:6379"
