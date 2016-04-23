@@ -11,7 +11,7 @@ import React from 'react'
 // Const
 // //////////////////////////////////////////////////////////////////////////
 
-const sampleCoordinates = [
+const starsInfoStub = [
     {
         lat: 35.681382,
         lng: 139.7638953
@@ -27,6 +27,7 @@ const sampleCoordinates = [
 ];
 
 let map;
+let constellationPolyline;
 
 export default class GoogleMap extends React.Component {
 
@@ -49,14 +50,17 @@ export default class GoogleMap extends React.Component {
 
         this.initMap();
 
+        this.addPath();
+
         // add custom marker
-        for (var i = 0; i < sampleCoordinates.length; i++) {
-            let planet = this.addMarker(map, sampleCoordinates[i]);
+        for (var i = 0; i < starsInfoStub.length; i++) {
+            let planet = this.addMarker(map, starsInfoStub[i]);
             this.rotatePlanet(planet);
             this.showPopup(map, planet);
+            this.movePlanet(planet, starsInfoStub[i]);
+            this.updatePolyline(i, starsInfoStub[i]);
         }
 
-        this.addPath();
     }
 
     // //////////////////////////////////////////////////////////////////////////
@@ -70,12 +74,10 @@ export default class GoogleMap extends React.Component {
 
         const mapOption = {
             zoom: 17,
-            center: sampleCoordinates[0]
+            center: starsInfoStub[0]
         };
 
         map = new google.maps.Map(document.getElementById('map'), mapOption);
-
-        console.log(map);
 
         this.readTextFile("./mapstyle.json", function (fileContent) {
             const json = JSON.parse(fileContent);
@@ -89,7 +91,6 @@ export default class GoogleMap extends React.Component {
      * Add marker based on coordinate
      * @param map
      * @param coordinate
-     * @param callback
      */
     addMarker(map, coordinate) {
         var customSymbol = {
@@ -116,14 +117,14 @@ export default class GoogleMap extends React.Component {
      */
     addPath() {
         // draw path among coordinates
-        const constellationPath = new google.maps.Polyline({
-            path: sampleCoordinates,
+        constellationPolyline = new google.maps.Polyline({
+            path: starsInfoStub,
             geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 0.5,
             strokeWeight: 2
         });
-        constellationPath.setMap(map);
+        constellationPolyline.setMap(map);
 
     }
 
@@ -142,6 +143,10 @@ export default class GoogleMap extends React.Component {
         });
     }
 
+    // //////////////////////////////////////////////////////////////////////////
+    // Animation
+    // //////////////////////////////////////////////////////////////////////////
+
     /**
      * Rotate planet marker
      * @param marker
@@ -155,6 +160,39 @@ export default class GoogleMap extends React.Component {
             icon.rotation = count;
             marker.set('icon', icon);
         }, delay);
+    }
+
+    /**
+     * Move planet marker
+     * @param planet
+     */
+    movePlanet(planet, star) {
+        var count = 0;
+        var delay = 500; // 2sec
+        window.setInterval(function () {
+            count = count + 1;
+
+            // move star
+            var newLat = planet.position.lat() + count / 1000000;
+            var newLng = planet.position.lng() + count / 1000000;
+            planet.setPosition({lat: newLat, lng: newLng});
+
+            // update lat and lng
+            star.lat = newLat;
+            star.lng = newLng;
+
+        }, delay);
+    }
+
+    /**
+     * Update poly-line based on stars coordinates
+     * @param index
+     * @param star
+     */
+    updatePolyline(index, star) {
+        var path = constellationPolyline.getPath();
+        path.setAt(index, new google.maps.LatLng(star.lat, star.lng));
+
     }
 
     // //////////////////////////////////////////////////////////////////////////
