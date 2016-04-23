@@ -27,7 +27,7 @@
 
 ```
 * 緯度経度は 10進法 135.6733223 を利用
-* チームの合計スコアを求めるときは、全レコードの blue_score/red_score の値を合計する
+* チームの合計スコアを求めるときは、Teamテーブルを利用する
 * score は以下を満たすものとする
   * Team テーブルと同期する
     * blue_score を update するとき、team.score (team.id = 1) も同じように update
