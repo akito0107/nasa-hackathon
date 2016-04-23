@@ -122,11 +122,131 @@ function addMarker(map, coordinate, callback) {
 function showPopup(map, planet) {
     // add event listener
     planet.addListener('click', function () {
-        const infoWindow = new google.maps.InfoWindow({
-            content: "A Planet Clicked!"
-        });
-        infoWindow.open(map, planet);
+        createHackModal();
     });
+}
+
+/**
+ * Create modal contents in hack-modal.html
+ */
+function createHackModal() {
+
+    // Header
+    const modal = document.createElement('div');
+    modal.className = 'modal action-modal modal-blue';
+
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'modal-header';
+
+    const modalHeaderTitle = document.createElement('div');
+    modalHeaderTitle.className = 'modal-title modal-title-blue';
+
+    const modalHeaderTitleP = document.createElement('p');
+    modalHeaderTitleP.innerText = 'Action';
+
+    // Body
+    const modalBody = document.createElement('div');
+    modalBody.className = 'modal-body action-modal-body';
+
+    const modalBodyBig = document.createElement('div');
+    modalBodyBig.className = 'modal-contents-big modal-contents-blue';
+
+    const modalBodyBigP = document.createElement('p');
+    modalBodyBigP.innerText = 'Hack!!!';
+
+    const modalBodyHr = document.createElement('hr');
+    modalBodyHr.className = 'modal-hr modal-hr-blue';
+
+    const modalBodyClose = document.createElement('div');
+    modalBodyClose.id = 'modal-close';
+    modalBodyClose.className = 'modal-button modal-button-blue';
+    modalBodyClose.onclick = function() {
+        modal.parentNode.removeChild(modal);
+    };
+
+    const modalBodyCloseP = document.createElement('p');
+    modalBodyCloseP.innerText = 'Close';
+
+    // Header
+    modalHeaderTitle.appendChild(modalHeaderTitleP);
+    modalHeader.appendChild(modalHeaderTitle);
+    modal.appendChild(modalHeader);
+    // Body
+    modalBodyBig.appendChild(modalBodyBigP);
+    modalBody.appendChild(modalBodyBig);
+    modalBody.appendChild(modalBodyHr);
+    modalBodyClose.appendChild(modalBodyCloseP);
+    modalBody.appendChild(modalBodyClose);
+    modal.appendChild(modalBody);
+    document.body.appendChild(modal);
+}
+
+/**
+ * Create star modal contents in star-modal.html
+ */
+function createStarModal() {
+    // Header
+    const modal = document.createElement('div');
+    modal.className = 'modal star-modal modal-blue';
+
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'modal-header';
+
+    const modalHeaderTitle = document.createElement('div');
+    modalHeaderTitle.className = 'modal-title modal-title-blue modal-title-left';
+    modalHeaderTitle.innerText = 'ベテルギウス';
+    
+    const modalHeaderClose = document.createElement('div');
+    modalHeaderClose.id = 'modal-close';
+    modalHeaderClose.className = 'modal-close';
+    modalHeaderClose.innerText = '×';
+    
+
+    // Body
+    const modalBody = document.createElement('div');
+    modalBody.className = 'modal-body star-modal-body';
+    
+    const modalBodyTeam = document.createElement('div');
+    modalBodyTeam.className = 'star-team';
+    
+    const modalBodyTeamP = document.createElement('p');
+    
+    const modalBodyTeamSpanLabel = document.createElement('span');
+    modalBodyTeamSpanLabel.className = 'star-team-label';
+    modalBodyTeamSpanLabel.innerText = 'Team:';
+    
+    const modalBodyTeamSpanValue = document.createElement('span');
+    modalBodyTeamSpanValue.className = 'star-team-value modal-contents-blue';
+    modalBodyTeamSpanValue.innerText = 'Earth';
+
+    const modalBodyScoreP = document.createElement('p');
+
+    const modalBodyScoreSpanLabel = document.createElement('span');
+    modalBodyScoreSpanLabel.className = 'star-score-label';
+    modalBodyScoreSpanLabel.innerText = 'Score:';
+
+    const modalBodyScoreSpanValue = document.createElement('span');
+    modalBodyScoreSpanValue.className = 'star-score-value modal-contents-blue';
+    modalBodyScoreSpanValue.innerText = '10';
+
+    const modalDescription = document.createElement('div');
+    modalDescription.className = 'star-description';
+    modalDescription.innerText = 'オリオン座を構成する星の1つです';
+
+    const modalHr = document.createElement('hr');
+    modalHr.className = 'modal-hr modal-hr-blue';
+
+    const modalHack = document.createElement('div');
+    modalHack.id = "star-hack";
+    modalHack.className = 'modal-button modal-button-blue';
+    modalHack.innerText = 'Hack';
+
+    const modalItem = document.createElement('div');
+    modalItem.id = 'star-item';
+    modalItem.className = 'modal-button modal-button-blue';
+    modalItem.innerText = 'Item';
+
+    document.body.appendChild(modal);
 }
 
 // //////////////////////////////////////////////////////////////////////////
