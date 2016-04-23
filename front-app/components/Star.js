@@ -8,6 +8,7 @@ export default class Star extends React.Component {
         // });
         // return(<div className='star'>{modalNodes}</div>);
         return(
+            <!-- TODO: modal-blue, modal-title-blue, modal-contents-blue, modal-hr-blue, modal-button-blue は赤チームだったらそれぞれ xxx-red に書き換える -->
             <div className="modal star-modal modal-blue">
                 <div className="modal-header">
                     <div className="modal-title modal-title-blue modal-title-left"><p>ベテルギウス - HIP: 27989</p></div>
