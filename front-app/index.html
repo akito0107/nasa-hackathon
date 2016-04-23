@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Simple markers</title>
-    <link rel="stylesheet" type="text/css" href="base.css"/>
-</head>
-<body>
+  <head>
+      <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+      <meta charset="utf-8">
+      <title>Simple markers</title>
+      <link rel="stylesheet" type="text/css" href="styles/base.css"/>
+  </head>
 
-<div class="clouds"></div>
-<div class="stars"></div>
-<div id="map"></div>
+  <body>
+    <header>
+      <h1>NASAgress</h1>
+    </header>
 
-<script async defer
-        src="components/Map.js">
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?callback=initMap">
-</script>
-</body>
+    <div id="container"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="build/bundle.js"></script>
+  </body>
 </html>
