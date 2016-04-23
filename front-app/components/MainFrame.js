@@ -28,6 +28,7 @@ export default class MainFrame extends React.Component {
 
     componentDidMount() {
         this.loadStarsFromServer();
+        // TODO:
         // setInterval(this.loadStarsFromServer.bind(this), this.props.pollInterval);
     }
 

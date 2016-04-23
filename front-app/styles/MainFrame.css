@@ -39,10 +39,10 @@ General
 }
 
 .header-title {
-    font-size:xx-large;
-    top:5vh;
-    position:relative;
-    height:10vh;
+    font-size: xx-large;
+    top: 5vh;
+    position: relative;
+    height: 10vh;
 }
 
 .header-title * {
@@ -67,9 +67,11 @@ General
 }
 
 .footer-modal-content {
-    margin-top: 15px;
     color: #ccc;
+    height: 5vh;
+    padding: 10px;
     text-align: center;
+    font-size: xx-large;
 }
 
 /* color */
@@ -85,8 +87,10 @@ General
 
 .footer-modal-score-blue {
     color: #00c0f0;
+    float: left;
 }
 
 .footer-modal-score-red {
     color: #f04000;
+    float: right;
 }

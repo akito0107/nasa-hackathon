@@ -79,6 +79,7 @@ var GoogleMap = (function (_React$Component) {
 
             this.initMap();
 
+            // TODO:
             // this.addPath();
             //
             // // add custom marker
@@ -104,7 +105,8 @@ var GoogleMap = (function (_React$Component) {
 
             var mapOption = {
                 zoom: 17,
-                center: starsInfoStub[0]
+                center: starsInfoStub[0],
+                disableDefaultUI: true
             };
 
             map = new google.maps.Map(document.getElementById('map'), mapOption);
@@ -383,6 +385,7 @@ var MainFrame = (function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             this.loadStarsFromServer();
+            // TODO:
             // setInterval(this.loadStarsFromServer.bind(this), this.props.pollInterval);
         }
     }, {

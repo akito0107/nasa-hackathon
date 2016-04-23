@@ -51,6 +51,7 @@ export default class GoogleMap extends React.Component {
 
         this.initMap();
 
+        // TODO:
         // this.addPath();
         //
         // // add custom marker
@@ -75,7 +76,8 @@ export default class GoogleMap extends React.Component {
 
         const mapOption = {
             zoom: 17,
-            center: starsInfoStub[0]
+            center: starsInfoStub[0],
+            disableDefaultUI: true
         };
 
         map = new google.maps.Map(document.getElementById('map'), mapOption);
