@@ -51,6 +51,7 @@ hack => アイテムゲット
 
 ## line
 
+- id
 - constellation_id
 - star_a_id
 - star_b_id
