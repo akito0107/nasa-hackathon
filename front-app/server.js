@@ -1,23 +1,34 @@
-var webpack = require('webpack')
-var webpackDevMiddleware = require('webpack-dev-middleware')
-var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('./webpack.config')
+var fs = require('fs');
+var path = require('path');
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
 
-var app = new (require('express'))()
-var port = 5000
+app.set('port', (process.env.PORT || 5000));
 
-var compiler = webpack(config)
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
-app.use(webpackHotMiddleware(compiler))
+app.use('/', express.static(__dirname));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + '/index.html')
-})
+app.get('/starsInfo.json', function(req, res) {
+  fs.readFile('starsInfo.json', function(err, data) {
+    res.setHeader('Cache-Control', 'no-cache');
+    res.json(JSON.parse(data));
+  });
+});
 
-app.listen(port, function(error) {
-  if (error) {
-    console.error(error)
-  } else {
-    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port)
-  }
-})
+app.post('/starsInfo.json', function(req, res) {
+  fs.readFile('starsInfo.json', function(err, data) {
+    var starsInfo = JSON.parse(data);
+    comments.push(req.body);
+    fs.writeFile('starsInfo.json', JSON.stringify(starsInfo, null, 4), function(err) {
+      res.setHeader('Cache-Control', 'no-cache');
+      res.json(starsInfo);
+    });
+  });
+});
+
+
+app.listen(app.get('port'), function() {
+  console.log('Server started: http://localhost:' + app.get('port') + '/');
+});

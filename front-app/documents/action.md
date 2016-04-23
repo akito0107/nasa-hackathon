@@ -21,36 +21,44 @@
 - description (`${constellation.name} を構成する星の1つです`)
 - lon
 - lat
+- blue_score
+- red_score
+- team_id
 
-緯度経度は 10進法 `135.6733223` を利用
+```
+* 緯度経度は 10進法 135.6733223 を利用
+* チームの合計スコアを求めるときは、全レコードの blue_score/red_score の値を合計する
+* score は以下を満たすものとする
+  * team = 1 (Earth/Blue) が Hack して update するとき,
+    * red_score > 0 であれば red_score を -1
+    * red_score <= 0 であれば blue_score を +1 (更新前が red_score == 0 && blue_score == 0 だったら team_id = 1 に update)
+  * team = 2 (Alien/Red) が Hack して update するとき,
+    * blue_score > 0 であれば blue_score を -1
+    * blue_score <= 0 であれば red_score を +1 (更新前が red_score == 0 && blue_score == 0 だったら team_id = 2 に update)
+  * 基本的に相手のスコアがあったらそれを減らす。相手のスコアがなければ自分のスコアを追加する。
+```
 
 ## constellation
 
 - id
 - name
 
-description生成用データ（スクレイピングのロジック内で完結するならテーブルは不要）
+```
+* description生成用データ（スクレイピングのロジック内で完結するならテーブルは不要）
+```
 
 ## team
 
 - id
 - name
-
-チームは `0:Not(White)`, `1:Earth(Blue)`, `2:Alien(Red)` の3つを想定。道などをGREENで表示。
-`0` を明記しているのはシステム都合で万が一必要になったときの予防策。
+- color
 
 ```
-フロントでは定数扱い。DBでstarやscoreを管理するために使う。
+* チームは {0, Not, white}, {1, Earth, blue}, {2, Alien, red} の3つを想定。道などをGREENで表示。
+* 0 を明記しているのはシステム都合で万が一必要になったときの予防策。
 ```
 
-## Score
 
-- id
-- star_id
-- count
-
-星はいずれかのチームに属する（ `count` が `-1` 以下であれば宇宙人のエリア、 `0` 以上であれば人間のエリア）。
-チームの合計スコアは `count <= -1` と `count >= 0 ` で絞り込んで（宇宙人側は `-1` を乗算して）sum。
 
 # フロントのアクション
 
@@ -64,7 +72,7 @@ description生成用データ（スクレイピングのロジック内で完結
 - 戦況を掲示
     - teamのscoreの合計
 - クライアント：30秒ごとに再描画
-    - サーバサイド：データは1分
+    - サーバサイド：データは60秒
 
 ## 星をタップ
 
@@ -76,7 +84,7 @@ description生成用データ（スクレイピングのロジック内で完結
 
 Must要件（処理）
 
-- scoreを変更（自分のteam_idなら++, 相手のteam_idなら--）
+- scoreを変更（モデルの `star` を参照）
 - 画面を再描画（Mainと同じ処理）
 
 Want要件（エフェクト）
@@ -106,10 +114,10 @@ Want要件（エフェクト）
         - id
         - lon
         - lat
-        - team_id (所有チーム: scoreとjoinして値を判定して絞り込む)
+        - team_id
     - scores (オブジェクト)
-        - blue_score (`score >= 0` で絞り込んだscoreの合算)
-        - red_score (score < 0で絞り込んだscoreの合算)
+        - blue_score
+        - red_score
 
 ## /star
 
@@ -127,7 +135,7 @@ Want要件（エフェクト）
         - description
         - lon
         - lat
-        - team_id (所有チーム: scoreとjoinして値で判定して絞り込む)
+        - team_id
 
 ## /hack
 
@@ -147,9 +155,9 @@ Want要件（エフェクト）
         - id
         - lon
         - lat
-        - team_id (所有チーム: scoreとjoinして値で判定して絞り込む)
+        - team_id
     - scores (オブジェクト)
-        - blue_score (team_idで絞り込んだscoreの合算)
-        - red_score (team_idで絞り込んだscoreの合算)
+        - blue_score
+        - red_score
 
 change以外はmainと同じレスポンス（再描画に使う）
