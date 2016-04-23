@@ -33,7 +33,8 @@ function initMap() {
 
     const mapOption = {
         zoom: 17,
-        center: sampleCoordinates[0]
+        center: sampleCoordinates[0],
+        disableDefaultUI: true
     };
 
     const map = new google.maps.Map(document.getElementById('map'), mapOption);
@@ -49,6 +50,7 @@ function initMap() {
     for (var i = 0; i < sampleCoordinates.length; i++) {
         addMarker(map, sampleCoordinates[i], function (planet) {
             rotatePlanet(planet);
+            movePlanet(planet);
             showPopup(map, planet);
         });
     }
@@ -120,6 +122,18 @@ function rotatePlanet(marker) {
         var icon = marker.get('icon');
         icon.rotation = count;
         marker.set('icon', icon);
+    }, delay);
+}
+
+function movePlanet(planet) {
+    var count = 0;
+    var delay = 2000; // 2sec
+    window.setInterval(function () {
+        count = count + 1;
+        var newLat = planet.position.lat() + count/10000;
+        var newLng = planet.position.lng() + count/10000;
+        console.log("lat : " + newLat + "/ lng : " + newLng);
+        planet.setPosition({lat: newLat, lng: newLng});
     }, delay);
 }
 
