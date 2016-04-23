@@ -30,29 +30,40 @@ class StarsController < ApplicationController
     #現在時刻における春分点の経度(緯度は0で固定)
     equixLongtitude = baseLongtitude - revolutionAngle + rotationAngle
 
-    lon = params[:lon] - equixLongtitude
-    lat = params[:lat]
+    lon = params[:lon].to_f - equixLongtitude
+    lat = params[:lat].to_f
+    lon = roundLongitude(lon)
     # @stars = Star.join_score.to_json(include: {score: {only: :team_id}})
-    @stars = Star.all
+    @stars = Star.near_star(lon, lat)
+    @stars.map {|star| star.lon = roundLongitude(star.lon.to_f + equixLongtitude)
+                star
+    }
+    @scores = Team.all.map{|team| {:color => team.color, :score => team.score}}
     render :json => { :stars => @stars, :scores => @scores}
   end
 
   def hack
     star = Star.find(params[:star_id])
-    team = Team.find(params[:team_id])
+    red = Team.find_by_color('red')
+    blue = Team.find_by_color('blue')
 
     if team.color == 'blue' then
       if star.red_score > 0 then
-        star.red_score - 1
+        star.red_score -= 1
       else
-        star.blue_score + 1
+        star.blue_score += 1
       end
+      blue.score += 1
+      red.score -= 1
     elsif team.color == 'red' then
       if star.blue_score > 0 then
-        star.blue_score - 1
+        star.blue_score -= 1
       else
-        star.red_score + 1
+        star.red_score += 1
+        team.score += 1
       end
+      red.score += 1
+      blue.score -= 1
     end
 
     changed = false
@@ -61,8 +72,40 @@ class StarsController < ApplicationController
         star.team_id = team.id
         changed = true
     end
-    star.save
-    render :json => {:star => star, :changed => changed}
+    red.save!
+    blue.save!
+    star.save!
+
+    #基準日と基準日の春分点
+    baseLongtitude = 112.5
+    baseDay = Time.gm(2016, 03, 20, 04, 30, 00)
+
+    #UTC における現在時刻
+    currentDay = Time.now.utc
+
+    #現在時刻と基準日の差の秒
+    difSec = currentDay - baseDay
+    #公転の影響による基準点との角度の差(東へ移動)
+    revolutionAngle = difSec / 87600
+
+    #現在時刻と基準日の差
+    difDailyMin = (currentDay.hour - baseDay.hour)*60 + currentDay.min - baseDay.min
+    #自転の影響による基準点との角度の差(西へ移動)
+    rotationAngle = difDailyMin / 4.0
+
+    #現在時刻における春分点の経度(緯度は0で固定)
+    equixLongtitude = baseLongtitude - revolutionAngle + rotationAngle
+
+    lon = params[:lon].to_f - equixLongtitude
+    lat = params[:lat].to_f
+    lon = roundLongitude(lon)
+    # @stars = Star.join_score.to_json(include: {score: {only: :team_id}})
+    @stars = Star.near_star(lon, lat)
+    @stars.map {|star| star.lon = roundLongitude(star.lon.to_f + equixLongtitude)
+                star
+    }
+    @scores = Team.all.map{|team| {:color => team.color, :score => team.score}}
+    render :json => { :change => changed, :stars => @stars, :scores => @scores}
   end
 
   # GET /stars/1
@@ -121,6 +164,15 @@ class StarsController < ApplicationController
     end
   end
 
+  def roundLongitude(val)
+    if val > 180
+      val -= 360
+    elsif val < -180
+      val += 360
+    end
+    val
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_star
@@ -131,4 +183,5 @@ class StarsController < ApplicationController
     def star_params
       params.require(:star).permit(:name, :description, :lon, :lat)
     end
+
 end
