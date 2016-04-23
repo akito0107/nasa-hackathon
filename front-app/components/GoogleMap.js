@@ -26,8 +26,38 @@ const sampleCoordinates = [
     }
 ];
 
+let map;
 
 export default class GoogleMap extends React.Component {
+
+
+    // //////////////////////////////////////////////////////////////////////////
+    // React lifecycle
+    // //////////////////////////////////////////////////////////////////////////
+
+    render() {
+        return (
+            <div className="GoogleMap">
+                <div className="clouds"></div>
+                <div className="stars"></div>
+                <div id="map"></div>
+            </div>
+        );
+    }
+
+    componentDidMount() {
+
+        this.initMap();
+
+        // add custom marker
+        for (var i = 0; i < sampleCoordinates.length; i++) {
+            let planet = this.addMarker(map, sampleCoordinates[i]);
+            this.rotatePlanet(planet);
+            this.showPopup(map, planet);
+        }
+
+        this.addPath();
+    }
 
     // //////////////////////////////////////////////////////////////////////////
     // Map
@@ -43,33 +73,16 @@ export default class GoogleMap extends React.Component {
             center: sampleCoordinates[0]
         };
 
-        const map = new google.maps.Map(document.getElementById('map'), mapOption);
+        map = new google.maps.Map(document.getElementById('map'), mapOption);
 
-        readTextFile("./mapstyle.json", function (fileContent) {
+        console.log(map);
+
+        this.readTextFile("./mapstyle.json", function (fileContent) {
             const json = JSON.parse(fileContent);
             // apply custom style to map
             map.mapTypes.set('map_style', new google.maps.StyledMapType(json, {name: "Styled Map"}));
             map.setMapTypeId('map_style');
         });
-
-        // add custom marker
-        for (var i = 0; i < sampleCoordinates.length; i++) {
-            addMarker(map, sampleCoordinates[i], function (planet) {
-                rotatePlanet(planet);
-                showPopup(map, planet);
-            });
-        }
-
-        // draw path among coordinators
-        const constellationPath = new google.maps.Polyline({
-            path: sampleCoordinates,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.5,
-            strokeWeight: 2
-        });
-        constellationPath.setMap(map);
-
     }
 
     /**
@@ -78,7 +91,7 @@ export default class GoogleMap extends React.Component {
      * @param coordinate
      * @param callback
      */
-    addMarker(map, coordinate, callback) {
+    addMarker(map, coordinate) {
         var customSymbol = {
             path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
             fillColor: 'yellow',
@@ -89,15 +102,29 @@ export default class GoogleMap extends React.Component {
             anchor: {x: 120, y: 120}
         };
 
-        const planet = new google.maps.Marker({
+        return new google.maps.Marker({
             map: map,
             position: coordinate,
             draggable: true,
             title: 'planet',
             icon: customSymbol
         });
+    }
 
-        callback(planet);
+    /**
+     * Add path among coordinates
+     */
+    addPath() {
+        // draw path among coordinates
+        const constellationPath = new google.maps.Polyline({
+            path: sampleCoordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.5,
+            strokeWeight: 2
+        });
+        constellationPath.setMap(map);
+
     }
 
     /**
@@ -121,7 +148,7 @@ export default class GoogleMap extends React.Component {
      */
     rotatePlanet(marker) {
         var count = 0;
-        var delay = getRandomInt(3, 30);
+        var delay = this.getRandomInt(3, 30);
         window.setInterval(function () {
             count = (count + 1);
             var icon = marker.get('icon');
@@ -164,15 +191,4 @@ export default class GoogleMap extends React.Component {
         rawFile.send(null);
     }
 
-
-    render() {
-        return (
-            <div className="GoogleMap">
-                <div className="clouds"></div>
-                <div className="stars"></div>
-                <div id="map"></div>
-                <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
-            </div>
-        );
-    }
 }

@@ -1,19 +1,19 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+Object.defineProperty(exports, '__esModule', {
+    value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -22,42 +22,219 @@ var _react2 = _interopRequireDefault(_react);
 /**
  * Map.js
  *
- * TODO: secure API key before publishing
  */
 
+'use strict';
+
+// //////////////////////////////////////////////////////////////////////////
+// Const
+// //////////////////////////////////////////////////////////////////////////
+
+var sampleCoordinates = [{
+    lat: 35.681382,
+    lng: 139.7638953
+}, {
+    lat: 35.6845628,
+    lng: 139.7649038
+}, {
+    lat: 35.6845628,
+    lng: 139.7539038
+}];
+
+var map = undefined;
+
 var GoogleMap = (function (_React$Component) {
-  _inherits(GoogleMap, _React$Component);
+    _inherits(GoogleMap, _React$Component);
 
-  function GoogleMap() {
-    _classCallCheck(this, GoogleMap);
+    function GoogleMap() {
+        _classCallCheck(this, GoogleMap);
 
-    _get(Object.getPrototypeOf(GoogleMap.prototype), "constructor", this).apply(this, arguments);
-  }
-
-  _createClass(GoogleMap, [{
-    key: "render",
-
-    // //////////////////////////////////////////////////////////////////////////
-    // Const
-    // //////////////////////////////////////////////////////////////////////////
-
-    value: function render() {
-      return _react2["default"].createElement(
-        "div",
-        { className: "GoogleMap" },
-        _react2["default"].createElement("div", { className: "clouds" }),
-        _react2["default"].createElement("div", { className: "stars" }),
-        _react2["default"].createElement("div", { id: "map" }),
-        _react2["default"].createElement("script", { async: true, defer: true, src: "https://maps.googleapis.com/maps/api/js?callback=initMap" })
-      );
+        _get(Object.getPrototypeOf(GoogleMap.prototype), 'constructor', this).apply(this, arguments);
     }
-  }]);
 
-  return GoogleMap;
-})(_react2["default"].Component);
+    _createClass(GoogleMap, [{
+        key: 'render',
 
-exports["default"] = GoogleMap;
-module.exports = exports["default"];
+        // //////////////////////////////////////////////////////////////////////////
+        // React lifecycle
+        // //////////////////////////////////////////////////////////////////////////
+
+        value: function render() {
+            return _react2['default'].createElement(
+                'div',
+                { className: 'GoogleMap' },
+                _react2['default'].createElement('div', { className: 'clouds' }),
+                _react2['default'].createElement('div', { className: 'stars' }),
+                _react2['default'].createElement('div', { id: 'map' })
+            );
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+
+            this.initMap();
+
+            // add custom marker
+            for (var i = 0; i < sampleCoordinates.length; i++) {
+                var planet = this.addMarker(map, sampleCoordinates[i]);
+                this.rotatePlanet(planet);
+                this.showPopup(map, planet);
+            }
+
+            this.addPath();
+        }
+
+        // //////////////////////////////////////////////////////////////////////////
+        // Map
+        // //////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Initialize map around Tokyo station
+         */
+    }, {
+        key: 'initMap',
+        value: function initMap() {
+
+            var mapOption = {
+                zoom: 17,
+                center: sampleCoordinates[0]
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), mapOption);
+
+            console.log(map);
+
+            this.readTextFile("./mapstyle.json", function (fileContent) {
+                var json = JSON.parse(fileContent);
+                // apply custom style to map
+                map.mapTypes.set('map_style', new google.maps.StyledMapType(json, { name: "Styled Map" }));
+                map.setMapTypeId('map_style');
+            });
+        }
+
+        /**
+         * Add marker based on coordinate
+         * @param map
+         * @param coordinate
+         * @param callback
+         */
+    }, {
+        key: 'addMarker',
+        value: function addMarker(map, coordinate) {
+            var customSymbol = {
+                path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
+                fillColor: 'yellow',
+                fillOpacity: 0.8,
+                scale: 0.2,
+                strokeColor: 'gold',
+                strokeWeight: 5,
+                anchor: { x: 120, y: 120 }
+            };
+
+            return new google.maps.Marker({
+                map: map,
+                position: coordinate,
+                draggable: true,
+                title: 'planet',
+                icon: customSymbol
+            });
+        }
+
+        /**
+         * Add path among coordinates
+         */
+    }, {
+        key: 'addPath',
+        value: function addPath() {
+            // draw path among coordinates
+            var constellationPath = new google.maps.Polyline({
+                path: sampleCoordinates,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.5,
+                strokeWeight: 2
+            });
+            constellationPath.setMap(map);
+        }
+
+        /**
+         * Show popup window to explain detail explanation about each planet
+         * @param map
+         * @param planet
+         */
+    }, {
+        key: 'showPopup',
+        value: function showPopup(map, planet) {
+            // add event listener
+            planet.addListener('click', function () {
+                var infoWindow = new google.maps.InfoWindow({
+                    content: "A Planet Clicked!"
+                });
+                infoWindow.open(map, planet);
+            });
+        }
+
+        /**
+         * Rotate planet marker
+         * @param marker
+         */
+    }, {
+        key: 'rotatePlanet',
+        value: function rotatePlanet(marker) {
+            var count = 0;
+            var delay = this.getRandomInt(3, 30);
+            window.setInterval(function () {
+                count = count + 1;
+                var icon = marker.get('icon');
+                icon.rotation = count;
+                marker.set('icon', icon);
+            }, delay);
+        }
+
+        // //////////////////////////////////////////////////////////////////////////
+        // Util
+        // //////////////////////////////////////////////////////////////////////////
+        /**
+         * Returns a random integer between min ( included ) and max ( excluded )
+         * @param min
+         * @param max
+         * @returns {*}
+         */
+    }, {
+        key: 'getRandomInt',
+        value: function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        /**
+         * Read text file from path
+         * @param filePath
+         * @param callback
+         *
+         * FIXME: XMLHttpRequest is depricated ... any alternatives?
+         */
+    }, {
+        key: 'readTextFile',
+        value: function readTextFile(filePath, callback) {
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", filePath, false);
+            rawFile.onreadystatechange = function () {
+                if (rawFile.readyState === 4) {
+                    if (rawFile.status === 200 || rawFile.status == 0) {
+                        var allText = rawFile.responseText;
+                        callback(allText);
+                    }
+                }
+            };
+            rawFile.send(null);
+        }
+    }]);
+
+    return GoogleMap;
+})(_react2['default'].Component);
+
+exports['default'] = GoogleMap;
+module.exports = exports['default'];
 
 },{"react":165}],2:[function(require,module,exports){
 'use strict';
