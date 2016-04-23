@@ -38,7 +38,7 @@ function initMap() {
 
     const map = new google.maps.Map(document.getElementById('map'), mapOption);
 
-    readTextFile("./mapstyle.json", function(fileContent) {
+    readTextFile("./mapstyle.json", function (fileContent) {
         const json = JSON.parse(fileContent);
         // apply custom style to map
         map.mapTypes.set('map_style', new google.maps.StyledMapType(json, {name: "Styled Map"}));
@@ -114,7 +114,7 @@ function showPopup(map, planet) {
  */
 function rotatePlanet(marker) {
     var count = 0;
-    var delay = getRandomInt(10, 30);
+    var delay = getRandomInt(3, 30);
     window.setInterval(function () {
         count = (count + 1);
         var icon = marker.get('icon');
@@ -140,6 +140,8 @@ function getRandomInt(min, max) {
  * Read text file from path
  * @param filePath
  * @param callback
+ *
+ * FIXME: XMLHttpRequest is depricated ... any alternatives?
  */
 function readTextFile(filePath, callback) {
     var rawFile = new XMLHttpRequest();
