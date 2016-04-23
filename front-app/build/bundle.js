@@ -82,8 +82,7 @@ var GoogleMap = (function (_React$Component) {
                 var planet = this.addMarker(map, starsInfoStub[i]);
                 this.rotatePlanet(planet);
                 this.showPopup(map, planet);
-                this.movePlanet(planet, starsInfoStub[i]);
-                this.updatePolyline(i, starsInfoStub[i]);
+                this.movePlanet(i, planet);
             }
         }
 
@@ -201,7 +200,7 @@ var GoogleMap = (function (_React$Component) {
          */
     }, {
         key: 'movePlanet',
-        value: function movePlanet(planet, star) {
+        value: function movePlanet(index, planet) {
             var count = 0;
             var delay = 500; // 2sec
             window.setInterval(function () {
@@ -212,22 +211,10 @@ var GoogleMap = (function (_React$Component) {
                 var newLng = planet.position.lng() + count / 1000000;
                 planet.setPosition({ lat: newLat, lng: newLng });
 
-                // update lat and lng
-                star.lat = newLat;
-                star.lng = newLng;
+                // update polyline lat and lng
+                var path = constellationPolyline.getPath();
+                path.setAt(index, new google.maps.LatLng(newLat, newLng));
             }, delay);
-        }
-
-        /**
-         * Update poly-line based on stars coordinates
-         * @param index
-         * @param star
-         */
-    }, {
-        key: 'updatePolyline',
-        value: function updatePolyline(index, star) {
-            var path = constellationPolyline.getPath();
-            path.setAt(index, new google.maps.LatLng(star.lat, star.lng));
         }
 
         // //////////////////////////////////////////////////////////////////////////

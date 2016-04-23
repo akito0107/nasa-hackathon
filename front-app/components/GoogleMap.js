@@ -57,8 +57,7 @@ export default class GoogleMap extends React.Component {
             let planet = this.addMarker(map, starsInfoStub[i]);
             this.rotatePlanet(planet);
             this.showPopup(map, planet);
-            this.movePlanet(planet, starsInfoStub[i]);
-            this.updatePolyline(i, starsInfoStub[i]);
+            this.movePlanet(i, planet);
         }
 
     }
@@ -166,7 +165,7 @@ export default class GoogleMap extends React.Component {
      * Move planet marker
      * @param planet
      */
-    movePlanet(planet, star) {
+    movePlanet(index, planet) {
         var count = 0;
         var delay = 500; // 2sec
         window.setInterval(function () {
@@ -177,23 +176,13 @@ export default class GoogleMap extends React.Component {
             var newLng = planet.position.lng() + count / 1000000;
             planet.setPosition({lat: newLat, lng: newLng});
 
-            // update lat and lng
-            star.lat = newLat;
-            star.lng = newLng;
+            // update polyline lat and lng
+            var path = constellationPolyline.getPath();
+            path.setAt(index, new google.maps.LatLng(newLat, newLng));
 
         }, delay);
     }
 
-    /**
-     * Update poly-line based on stars coordinates
-     * @param index
-     * @param star
-     */
-    updatePolyline(index, star) {
-        var path = constellationPolyline.getPath();
-        path.setAt(index, new google.maps.LatLng(star.lat, star.lng));
-
-    }
 
     // //////////////////////////////////////////////////////////////////////////
     // Util
