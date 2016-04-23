@@ -1,6 +1,7 @@
 import React from 'react'
 import Star from './Star'
 import Line from './Line'
+import GoogleMap from './GoogleMap'
 import $ from 'jquery'
 
 export default class MainFrame extends React.Component {
@@ -29,6 +30,7 @@ export default class MainFrame extends React.Component {
         <h2>MainFrame</h2>
         <Star data={this.state.data} />
         <Line />
+        <GoogleMap />
       </div>
     );
   }

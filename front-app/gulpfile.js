@@ -16,7 +16,10 @@ gulp.task('build', function() {
   browserify({entries: ['./index.js']})
     .transform(babelify)
     .bundle()
-    .on('error', errorHandler)
+    .on('error', function(err){   //ここからエラーだった時の記述
+      console.log(err.message);
+      console.log(err.stack);
+  })
     .pipe(source('bundle.js'))
     .pipe(buffer())
     .pipe(gulp.dest('./build'))
@@ -28,6 +31,8 @@ gulp.task('build', function() {
 gulp.task('server', function() {
   node(['./server.js']);
 });
+
+
 
 // watch
 // watch each files to run build
