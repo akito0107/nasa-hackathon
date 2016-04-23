@@ -121,8 +121,8 @@ export default class MainFrame extends React.Component {
                 <div className="header">
                     <div className="header-title"><p>NASAGRESS</p></div>
                 </div>
-                <div className={style_main}>
-                    <GoogleMap />
+                    <div className={style_main}>
+                    <GoogleMap url="starsInfo.json" pollInterval={5000}/>
                 </div>
                 <div className="footer">
                     <div className={style_footer_modal}>
