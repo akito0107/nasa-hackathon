@@ -1,5 +1,6 @@
 [
-  {"name": "name1", "color": "red"},
-  {"name": "name2", "color": "blue"},
-  {"name": "name3", "color": "blue"}
+  {"id": "1", "name": "name1", "lon": "111.1212222", "lat": "11.1234567", "blue_score":"3", "red_score":"0",  "team_id": "blue"},
+  {"id": "2", "name": "name2", "lon": "122.1212222", "lat": "22.1234567", "blue_score":"2", "red_score":"0",  "team_id": "blue"},
+  {"id": "3", "name": "name3", "lon": "133.1212222", "lat": "33.1234567", "blue_score":"0", "red_score":"4",  "team_id": "red"},
+  {"id": "4", "name": "name4", "lon": "144.1212222", "lat": "44.1234567", "blue_score":"0", "red_score":"5",  "team_id": "red"}
 ]

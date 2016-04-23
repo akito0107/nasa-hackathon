@@ -5,27 +5,27 @@ import React from 'react'
  *
  * TODO: secure API key before publishing
  */
-
+ const sampleCoordinates = [
+     {
+         lat: 35.681382,
+         lng: 139.7638953
+     },
+     {
+         lat: 35.6845628,
+         lng: 139.7649038
+     },
+     {
+         lat: 35.6845628,
+         lng: 139.7539038
+     }
+ ];
 
   export default class GoogleMap extends React.Component {
   // //////////////////////////////////////////////////////////////////////////
   // Const
   // //////////////////////////////////////////////////////////////////////////
 
-    const sampleCoordinates = [
-        {
-            lat: 35.681382,
-            lng: 139.7638953
-        },
-        {
-            lat: 35.6845628,
-            lng: 139.7649038
-        },
-        {
-            lat: 35.6845628,
-            lng: 139.7539038
-        }
-    ];
+
     // //////////////////////////////////////////////////////////////////////////
     // Map
     // //////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ import React from 'react'
     /**
      * Initialize map around Tokyo station
      */
-    function initMap() {
+     initMap() {
 
         const mapOption = {
             zoom: 17,
@@ -75,7 +75,7 @@ import React from 'react'
      * @param coordinate
      * @param callback
      */
-    function addMarker(map, coordinate, callback) {
+     addMarker(map, coordinate, callback) {
         var customSymbol = {
             path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
             fillColor: 'yellow',
@@ -102,7 +102,7 @@ import React from 'react'
      * @param map
      * @param planet
      */
-    function showPopup(map, planet) {
+     showPopup(map, planet) {
         // add event listener
         planet.addListener('click', function () {
             const infoWindow = new google.maps.InfoWindow({
@@ -116,7 +116,7 @@ import React from 'react'
      * Rotate planet marker
      * @param marker
      */
-    function rotatePlanet(marker) {
+     rotatePlanet(marker) {
         var count = 0;
         var delay = getRandomInt(3, 30);
         window.setInterval(function () {
@@ -136,7 +136,7 @@ import React from 'react'
      * @param max
      * @returns {*}
      */
-    function getRandomInt(min, max) {
+     getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
@@ -147,7 +147,7 @@ import React from 'react'
      *
      * FIXME: XMLHttpRequest is depricated ... any alternatives?
      */
-    function readTextFile(filePath, callback) {
+     readTextFile(filePath, callback) {
         var rawFile = new XMLHttpRequest();
         rawFile.open("GET", filePath, false);
         rawFile.onreadystatechange = function () {

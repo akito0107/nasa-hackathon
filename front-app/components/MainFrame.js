@@ -12,17 +12,22 @@ export default class MainFrame extends React.Component {
     };
   }
 
-  componentDidMount() {
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      cache: false,
-      success: (data) => { this.setState({data: data}); },
-      error: (xhr, status, err) => {
-        console.error(this.props.url, status, err.toString());
-      }
-    });
-  }
+  loadStarsFromServer() {
+     $.ajax({
+       url: this.props.url,
+       dataType: 'json',
+       cache: false,
+       success: (data) => { this.setState({data: data}); },
+       error: (xhr, status, err) => {
+         console.error(this.props.url, status, err.toString());
+       }
+     });
+   }
+
+   componentDidMount() {
+     this.loadStarsFromServer();
+     setInterval(this.loadStarsFromServer.bind(this), this.props.pollInterval);
+   }
 
   render() {
     return(
