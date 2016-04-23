@@ -8,70 +8,6 @@
 // Const
 // //////////////////////////////////////////////////////////////////////////
 
-const mapStyle =
-    [
-        {
-            "elementType": "geometry.fill",
-            "stylers": [
-                {
-                    "invert_lightness": true
-                },
-                {
-                    "saturation": -40
-                },
-                {
-                    "weight": 0.1
-                },
-                {
-                    "hue": "#0022ff"
-                },
-                {
-                    "color": "#3f5a99"
-                },
-                {
-                    "lightness": -18
-                },
-                {
-                    "gamma": 0.85
-                }
-            ]
-        },
-        {
-            "elementType": "geometry.stroke",
-            "stylers": [
-                {
-                    "color": "#49f9a9"
-                }
-            ]
-        },
-        {
-            "elementType": "labels.icon",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "elementType": "labels.text.fill",
-            "stylers": [
-                {
-                    "color": "#1fc5ff"
-                }
-            ]
-        },
-        {
-            "elementType": "labels.text.stroke",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {},
-        {}
-    ];
-
 const sampleCoordinates = [
     {
         lat: 35.681382,
@@ -94,6 +30,7 @@ const sampleCoordinates = [
  * Initialize map around Tokyo station
  */
 function initMap() {
+
     const mapOption = {
         zoom: 17,
         center: sampleCoordinates[0]
@@ -101,9 +38,12 @@ function initMap() {
 
     const map = new google.maps.Map(document.getElementById('map'), mapOption);
 
-    // apply custom style to map
-    map.mapTypes.set('map_style', new google.maps.StyledMapType(mapStyle, {name: "Styled Map"}));
-    map.setMapTypeId('map_style');
+    readTextFile("./mapstyle.json", function(fileContent) {
+        const json = JSON.parse(fileContent);
+        // apply custom style to map
+        map.mapTypes.set('map_style', new google.maps.StyledMapType(json, {name: "Styled Map"}));
+        map.setMapTypeId('map_style');
+    });
 
     // add custom marker
     for (var i = 0; i < sampleCoordinates.length; i++) {
@@ -196,39 +136,21 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function createMarker(width, height, radius) {
-
-    var canvas, context;
-
-    canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-
-    context = canvas.getContext("2d");
-
-    context.clearRect(0,0,width,height);
-
-    // background is yellow
-    context.fillStyle = "rgba(255,255,0,1)";
-
-    // border is black
-    context.strokeStyle = "rgba(0,0,0,1)";
-
-    context.beginPath();
-    context.moveTo(radius, 0);
-    context.lineTo(width - radius, 0);
-    context.quadraticCurveTo(width, 0, width, radius);
-    context.lineTo(width, height - radius);
-    context.quadraticCurveTo(width, height, width - radius, height);
-    context.lineTo(radius, height);
-    context.quadraticCurveTo(0, height, 0, height - radius);
-    context.lineTo(0, radius);
-    context.quadraticCurveTo(0, 0, radius, 0);
-    context.closePath();
-
-    context.fill();
-    context.stroke();
-
-    return canvas.toDataURL();
-
+/**
+ * Read text file from path
+ * @param filePath
+ * @param callback
+ */
+function readTextFile(filePath, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", filePath, false);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState === 4) {
+            if (rawFile.status === 200 || rawFile.status == 0) {
+                var allText = rawFile.responseText;
+                callback(allText);
+            }
+        }
+    };
+    rawFile.send(null);
 }
