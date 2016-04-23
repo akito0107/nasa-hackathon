@@ -5,7 +5,7 @@ var Index = React.createClass({
     render: function () {
         return (
             <div>
-                <MainFrame url="starsInfo.json"/>
+                <MainFrame url="http://localhost:3000/main"/>
             </div>
         )
     }
@@ -13,6 +13,6 @@ var Index = React.createClass({
 
 // set short interval for test 
 React.render(
-    <Index url="starsInfo.json" pollInterval={5000}/>,
+    <Index url="http://localhost:3000/main" pollInterval={5000}/>,
     document.getElementById('container')
 );

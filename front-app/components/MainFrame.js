@@ -1,4 +1,3 @@
-import ReactDom from 'react-dom'
 import React from 'react'
 import GoogleMap from './GoogleMap'
 import $ from 'jquery'
@@ -123,7 +122,7 @@ export default class MainFrame extends React.Component {
                     <div className="header-title"><p>NASAGRESS</p></div>
                 </div>
                     <div className={style_main}>
-                    <GoogleMap url="starsInfo.json" pollInterval={5000}/>
+                    <GoogleMap url="http://localhost:3000/main" pollInterval={5000}/>
                 </div>
                 <div className="footer">
                     <div className={style_footer_modal}>
