@@ -1,0 +1,62 @@
+[
+  {
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "invert_lightness": true
+      },
+      {
+        "saturation": -40
+      },
+      {
+        "weight": 0.1
+      },
+      {
+        "hue": "#0022ff"
+      },
+      {
+        "color": "#3f5a99"
+      },
+      {
+        "lightness": -18
+      },
+      {
+        "gamma": 0.85
+      }
+    ]
+  },
+  {
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#49f9a9"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#1fc5ff"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {},
+  {}
+]
