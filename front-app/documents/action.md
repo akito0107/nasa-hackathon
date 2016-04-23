@@ -117,6 +117,8 @@ hack => 相手の陣地だと攻撃できる。自分の陣地だと守りを強
 - post
     - team_id
     - star_id
+    - lon
+    - lat
 
 ### レスポンス
 - response (オブジェクト)
