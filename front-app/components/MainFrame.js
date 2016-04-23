@@ -111,8 +111,8 @@ export default class MainFrame extends React.Component {
                 style_main = styles.main.red;
                 style_footer_modal = styles.footer_modal.red;
             }
-        }
-            
+        })
+        
         // TODO: 受け渡し
         var scores = [];
         
