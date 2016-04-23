@@ -16,16 +16,20 @@
 ## star
 
 - id
-- name (`${name} -` (nameが存在する場合) + `HIP: ${hip}`)
-- description (`赤経 ${赤経}, 赤緯 ${赤緯} の星です`)
+- name (`${name} - ` (nameが存在する場合) + `HIP: ${hip}`)
+- constellation_id ( `description` 生成に使う外部キー/スクレイピングのロジック内で完結するならカラムは不要)
+- description (`${constellation.name} を構成する星の1つです`)
 - lon
 - lat
 
 緯度経度は 10進法 `135.6733223` を利用
 
-```
-説明文は時間かかるなら削除するか？
-```
+## constellation
+
+- id
+- name
+
+description生成用データ（スクレイピングのロジック内で完結するならテーブルは不要）
 
 ## team
 
