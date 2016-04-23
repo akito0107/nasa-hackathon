@@ -51,15 +51,15 @@ export default class GoogleMap extends React.Component {
 
         this.initMap();
 
-        this.addPath();
-
-        // add custom marker
-        for (var i = 0; i < starsInfoStub.length; i++) {
-            let planet = this.addMarker(map, starsInfoStub[i]);
-            this.rotatePlanet(planet);
-            this.showPopup(planet);
-            this.movePlanet(i, planet);
-        }
+        // this.addPath();
+        //
+        // // add custom marker
+        // for (var i = 0; i < starsInfoStub.length; i++) {
+        //     let planet = this.addMarker(map, starsInfoStub[i]);
+        //     this.rotatePlanet(planet);
+        //     this.showPopup(planet);
+        //     this.movePlanet(i, planet);
+        // }
 
     }
 
