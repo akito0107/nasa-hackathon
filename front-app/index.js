@@ -13,6 +13,6 @@ var Index = React.createClass({
 
 // set short interval for test 
 React.render(
-    <Index url="http://localhost:3000/main" pollInterval={5000}/>,
+    <Index url="http://localhost:3000/main" pollInterval={10000}/>,
     document.getElementById('container')
 );

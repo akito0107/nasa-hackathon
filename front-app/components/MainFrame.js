@@ -36,6 +36,7 @@ export default class MainFrame extends React.Component {
             dataType: 'json',
             cache: false,
             success: (data) => {
+                console.log(data)
                 this.setState({data: data});
             },
             error: (xhr, status, err) => {
@@ -93,9 +94,8 @@ export default class MainFrame extends React.Component {
     // //////////////////////////////////////////////////////////////////////////
 
     componentDidMount() {
-        this.loadStarsFromServer();
-        // TODO:
-        // setInterval(this.loadStarsFromServer.bind(this), this.props.pollInterval);
+        // this.loadStarsFromServer();
+        // setInterval(this.loadStarsFromServer.bind(this), 5000);
     }
 
     render() {
@@ -103,7 +103,8 @@ export default class MainFrame extends React.Component {
         var style_main = styles.main.white;
         var style_footer_modal = styles.footer_modal.white;
 
-        this.props.data.map((team_id)=> {
+        console.log(this.state)
+        this.state.data.map((team_id)=> {
             if(team_id == 1) {
                 style_main = styles.main.blue;
                 style_footer_modal = styles.footer_modal.blue;
@@ -111,7 +112,7 @@ export default class MainFrame extends React.Component {
                 style_main = styles.main.red;
                 style_footer_modal = styles.footer_modal.red;
             }
-        })
+        });
         
         // TODO: 受け渡し
         var scores = [];
@@ -122,7 +123,7 @@ export default class MainFrame extends React.Component {
                     <div className="header-title"><p>NASAGRESS</p></div>
                 </div>
                     <div className={style_main}>
-                    <GoogleMap url="http://localhost:3000/main" pollInterval={5000}/>
+                    <GoogleMap url="http://localhost:3000/main" pollInterval={10000}/>
                 </div>
                 <div className="footer">
                     <div className={style_footer_modal}>
