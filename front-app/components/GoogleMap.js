@@ -64,6 +64,7 @@ export default class GoogleMap extends React.Component {
 
             },
             error: (xhr, status, err) => {
+                this.defaultMap();
                 console.error(this.props.url, status, err.toString());
             }
         });
@@ -105,6 +106,7 @@ export default class GoogleMap extends React.Component {
                 }
             },
             error: (xhr, status, err) => {
+                this.defaultMap();
                 console.error(this.props.url, status, err.toString());
             }
         });
@@ -127,6 +129,7 @@ export default class GoogleMap extends React.Component {
                 this.setState({data: data});
             },
             error: (xhr, status, err) => {
+                this.defaultMap();
                 console.error(this.props.url, status, err.toString());
             }
         });
@@ -177,6 +180,27 @@ export default class GoogleMap extends React.Component {
             map.mapTypes.set('map_style', new google.maps.StyledMapType(json, {name: "Styled Map"}));
             map.setMapTypeId('map_style');
         });
+    }
+
+    /**
+     * Show default map
+     */
+    defaultMap() {
+        const mapOption = {
+            zoom: 17,
+            center: new google.maps.LatLng("35.681382", "139.7638953"),
+            disableDefaultUI: true
+        };
+
+        map = new google.maps.Map(document.getElementById('map'), mapOption);
+
+        this.readTextFile("./mapstyle.json", function (fileContent) {
+            const json = JSON.parse(fileContent);
+            // apply custom style to map
+            map.mapTypes.set('map_style', new google.maps.StyledMapType(json, {name: "Styled Map"}));
+            map.setMapTypeId('map_style');
+        });
+
     }
 
     /**

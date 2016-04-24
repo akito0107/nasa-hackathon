@@ -90,6 +90,7 @@ var GoogleMap = (function (_React$Component) {
                     }
                 },
                 error: function error(xhr, status, err) {
+                    _this.defaultMap();
                     console.error(_this.props.url, status, err.toString());
                 }
             });
@@ -134,6 +135,7 @@ var GoogleMap = (function (_React$Component) {
                     }
                 },
                 error: function error(xhr, status, err) {
+                    _this2.defaultMap();
                     console.error(_this2.props.url, status, err.toString());
                 }
             });
@@ -159,6 +161,7 @@ var GoogleMap = (function (_React$Component) {
                     _this3.setState({ data: data });
                 },
                 error: function error(xhr, status, err) {
+                    _this3.defaultMap();
                     console.error(_this3.props.url, status, err.toString());
                 }
             });
@@ -203,6 +206,28 @@ var GoogleMap = (function (_React$Component) {
             var mapOption = {
                 zoom: 17,
                 center: new google.maps.LatLng(parseFloat(data.lat), parseFloat(data.lon)),
+                disableDefaultUI: true
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), mapOption);
+
+            this.readTextFile("./mapstyle.json", function (fileContent) {
+                var json = JSON.parse(fileContent);
+                // apply custom style to map
+                map.mapTypes.set('map_style', new google.maps.StyledMapType(json, { name: "Styled Map" }));
+                map.setMapTypeId('map_style');
+            });
+        }
+
+        /**
+         * Show default map
+         */
+    }, {
+        key: 'defaultMap',
+        value: function defaultMap() {
+            var mapOption = {
+                zoom: 17,
+                center: new google.maps.LatLng("35.681382", "139.7638953"),
                 disableDefaultUI: true
             };
 
