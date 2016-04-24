@@ -90,7 +90,9 @@ var GoogleMap = (function (_React$Component) {
                     }
                 },
                 error: function error(xhr, status, err) {
-                    _this.defaultMap();
+                    if (map == null) {
+                        _this.defaultMap();
+                    }
                     console.error(_this.props.url, status, err.toString());
                 }
             });
@@ -135,7 +137,9 @@ var GoogleMap = (function (_React$Component) {
                     }
                 },
                 error: function error(xhr, status, err) {
-                    _this2.defaultMap();
+                    if (map == null) {
+                        _this2.defaultMap();
+                    }
                     console.error(_this2.props.url, status, err.toString());
                 }
             });
@@ -161,7 +165,9 @@ var GoogleMap = (function (_React$Component) {
                     _this3.setState({ data: data });
                 },
                 error: function error(xhr, status, err) {
-                    _this3.defaultMap();
+                    if (map == null) {
+                        _this3.defaultMap();
+                    }
                     console.error(_this3.props.url, status, err.toString());
                 }
             });

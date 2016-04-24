@@ -64,7 +64,9 @@ export default class GoogleMap extends React.Component {
 
             },
             error: (xhr, status, err) => {
-                this.defaultMap();
+                if (map == null) {
+                    this.defaultMap();
+                }
                 console.error(this.props.url, status, err.toString());
             }
         });
@@ -106,7 +108,9 @@ export default class GoogleMap extends React.Component {
                 }
             },
             error: (xhr, status, err) => {
-                this.defaultMap();
+                if (map == null) {
+                    this.defaultMap();
+                }
                 console.error(this.props.url, status, err.toString());
             }
         });
@@ -129,7 +133,9 @@ export default class GoogleMap extends React.Component {
                 this.setState({data: data});
             },
             error: (xhr, status, err) => {
-                this.defaultMap();
+                if (map == null) {
+                    this.defaultMap();
+                }
                 console.error(this.props.url, status, err.toString());
             }
         });
