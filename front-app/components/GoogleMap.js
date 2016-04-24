@@ -41,17 +41,18 @@ export default class GoogleMap extends React.Component {
                     this.initMap(data.stars[0]);
 
                     data.stars.forEach((star) => {
-                      const planet = this.addMarker(map, star);
-                      this.rotatePlanet(planet);
-                      this.showPopup(planet);
-                      if(star.team_id === "2"){
-                        this.changeMarkerColorRed(planet);
-                      }
-                      if(star.team_id === "1"){
-                        this.changeMarkerColorBlue(planet);
-                      }
-                      planets.push(planet);
-                }) }else {
+                        const planet = this.addMarker(map, star);
+                        this.rotatePlanet(planet);
+                        this.showPopup(planet);
+                        if (star.team_id === "2") {
+                            this.changeMarkerColorRed(planet);
+                        }
+                        if (star.team_id === "1") {
+                            this.changeMarkerColorBlue(planet);
+                        }
+                        planets.push(planet);
+                    })
+                } else {
                     // add custom marker
 
                     for (i = 0; i < data.stars.length; i++) {
@@ -63,6 +64,9 @@ export default class GoogleMap extends React.Component {
 
             },
             error: (xhr, status, err) => {
+                if (map == null) {
+                    this.defaultMap();
+                }
                 console.error(this.props.url, status, err.toString());
             }
         });
@@ -104,6 +108,9 @@ export default class GoogleMap extends React.Component {
                 }
             },
             error: (xhr, status, err) => {
+                if (map == null) {
+                    this.defaultMap();
+                }
                 console.error(this.props.url, status, err.toString());
             }
         });
@@ -126,6 +133,9 @@ export default class GoogleMap extends React.Component {
                 this.setState({data: data});
             },
             error: (xhr, status, err) => {
+                if (map == null) {
+                    this.defaultMap();
+                }
                 console.error(this.props.url, status, err.toString());
             }
         });
@@ -148,8 +158,7 @@ export default class GoogleMap extends React.Component {
     componentDidMount() {
 
         this.loadStarsFromServer();
-        setInterval(this.loadStarsFromServer.bind(this), this.props.pollInterval);
-
+        setInterval(this.loadStarsFromServer.bind(this), 10000);
         // this.loadMainFromServer();
         // setInterval(this.loadMainFromServer.bind(this), this.props.pollInterval);
     }
@@ -161,7 +170,6 @@ export default class GoogleMap extends React.Component {
     /**
      * Initialize map around Tokyo station
      */
-
     initMap(data) {
 
         const mapOption = {
@@ -181,6 +189,27 @@ export default class GoogleMap extends React.Component {
     }
 
     /**
+     * Show default map
+     */
+    defaultMap() {
+        const mapOption = {
+            zoom: 17,
+            center: new google.maps.LatLng("35.681382", "139.7638953"),
+            disableDefaultUI: true
+        };
+
+        map = new google.maps.Map(document.getElementById('map'), mapOption);
+
+        this.readTextFile("./mapstyle.json", function (fileContent) {
+            const json = JSON.parse(fileContent);
+            // apply custom style to map
+            map.mapTypes.set('map_style', new google.maps.StyledMapType(json, {name: "Styled Map"}));
+            map.setMapTypeId('map_style');
+        });
+
+    }
+
+    /**
      * Add marker based on coordinate
      * @param map
      * @param data
@@ -195,7 +224,7 @@ export default class GoogleMap extends React.Component {
             strokeWeight: 5,
             anchor: {x: 120, y: 120}
         };
-        
+
         return new google.maps.Marker({
             map: map,
             position: new google.maps.LatLng(parseFloat(data.lat), parseFloat(data.lon)),
